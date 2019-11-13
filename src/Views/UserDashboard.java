@@ -15,6 +15,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream.Filter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -46,6 +48,9 @@ public class UserDashboard extends javax.swing.JFrame {
         treeFolders.setEditable(true);
         selectedNode = (DefaultMutableTreeNode) treeFolders.getModel().getRoot();
         selectedNode = (DefaultMutableTreeNode) selectedNode.getRoot();
+        
+        n.imprimirDirectorioCompleto();
+        
 
     }
 
@@ -63,7 +68,7 @@ public class UserDashboard extends javax.swing.JFrame {
         lblUser = new javax.swing.JLabel();
         btnLogOff = new java.awt.Button();
         jScrollPane1 = new javax.swing.JScrollPane();
-        treeFolders = new javax.swing.JTree(new DefaultMutableTreeNode("/"));
+        treeFolders = new javax.swing.JTree(n.getTreeRoot());
         lbl = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -176,9 +181,8 @@ public class UserDashboard extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnEliminarFolder, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnModificarFolder, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
-                                .addComponent(btnCrearFolder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnModificarFolder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                            .addComponent(btnCrearFolder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(77, 77, 77)))
                 .addContainerGap())
         );

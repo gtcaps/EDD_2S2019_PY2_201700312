@@ -156,7 +156,7 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="treeFoldersMouseClicked"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTree(new DefaultMutableTreeNode(&quot;/&quot;))"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTree(n.getTreeRoot())"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -205,10 +205,8 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="btnEliminarFolder" pref="297" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="btnModificarFolder" pref="297" max="32767" attributes="0"/>
-                                      <Component id="btnCrearFolder" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="btnModificarFolder" alignment="0" pref="297" max="32767" attributes="0"/>
+                                  <Component id="btnCrearFolder" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                           </Group>

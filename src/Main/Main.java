@@ -11,18 +11,20 @@ import structures.graph.Directorio;
 
 public class Main {
 
-    //public static HashTable users = new HashTable();
-    //public static Bitacora bitacora = new Bitacora();
-    //public static Usuario user;
-    //public static Login log = new Login();
+    public static HashTable users = new HashTable();
+    public static Bitacora bitacora = new Bitacora();
+    public static Usuario user;
+    public static Login log = new Login();
+    public static Directorio n = new Directorio("/");
 
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
 
-        Directorio n = new Directorio("/");
+        
         n.addDirectorio("temp");
         n.addDirectorio("var");
         n.addDirectorio("user");
         n.addDirectorio("home");
+        n.addDirectorio("documents");
         
         n.getDirectorio("temp").addDirectorio("cache");
         
@@ -36,18 +38,24 @@ public class Main {
         
         n.getDirectorio("home").getDirectorio("documents").addDirectorio("usac");
         
-        n.graficar();
+        n.getDirectorio("documents").addDirectorio("universidad");
         
-        /*-------------------------NECESSARY
+        
+        
+        
+        
         String project_path = "C:\\Users\\aybso\\OneDrive\\Documents\\Universidad\\EDD\\Laboratorio\\DS_DRIVE\\";
         
         bulkLoadingUsers( project_path + "users.csv");
         addUser("huawei123","123123123");
         //bulkLoadingUsers("users2.csv");
         //graphUsers();
+        //Thread.sleep(1000);
+        //bulkLoadingUsers("users2.csv");
+        //graphUsers();
 
         log.setVisible(true);
-        /*
+        
         
         
         
@@ -73,32 +81,32 @@ public class Main {
     }
 
     
-//    public static boolean initSession(String usuario, String password){
-//        Usuario u = users.getUsuario(usuario);
-//
-//        if(!u.getUsuario().isBlank()){
-//            if(u.verifyPassword(password)) {
-//                System.out.println("Bienvenido " + u.getUsuario() + " has iniciado sesion exitosamente");
-//                user = u;
-//                return true;
-//            }
-//        }
-//
-//        System.out.println("La sesion no pudo ser iniciada, verifique sus credenciales");
-//        return false;
-//    }
-//
-//    public static void addUser(String usuario, String password){
-//        users.add(usuario, new Usuario(usuario, password));
-//    }
-//
-//    public static void bulkLoadingUsers(String filename) throws IOException {
-//        users.addCSV(filename);
-//    }
-//
-//    public static void graphUsers() throws IOException, InterruptedException {
-//        users.graph();
-//    }
+    public static boolean initSession(String usuario, String password){
+        Usuario u = users.getUsuario(usuario);
+
+        if(!u.getUsuario().isBlank()){
+            if(u.verifyPassword(password)) {
+                System.out.println("Bienvenido " + u.getUsuario() + " has iniciado sesion exitosamente");
+                user = u;
+                return true;
+            }
+        }
+
+        System.out.println("La sesion no pudo ser iniciada, verifique sus credenciales");
+        return false;
+    }
+
+    public static void addUser(String usuario, String password){
+        users.add(usuario, new Usuario(usuario, password));
+    }
+
+    public static void bulkLoadingUsers(String filename) throws IOException {
+        users.addCSV(filename);
+    }
+
+    public static void graphUsers() throws IOException, InterruptedException {
+        users.graph();
+    }
 
 
 }

@@ -3,6 +3,5 @@ digraph G{
    node[shape=record];
    graph[ranksep="1"];
 
-   stack[label="[USUARIO]:  huawei123\n[OPERACION]:  Inicio de Sesion\n[FECHA]:  12-11-2019\n[HORA]:  12::43::16.073\n"];
-
+   node_empty[label="The stack is empty"];
 }
