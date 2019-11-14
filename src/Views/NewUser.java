@@ -181,7 +181,7 @@ public class NewUser extends javax.swing.JFrame {
                 txtUser.requestFocusInWindow();
             }else{
                 //VERIFICO LA CONTRASEÑA
-                if(password.length() <= 8){
+                if(password.length() < 8){
                     Main.Main.bitacora.add("Nuevo Usuario", "El usuario " + username + ", no cumple con la contraseña");
                     JOptionPane.showMessageDialog(null, "No se puede agregar el usuario, la contraseña debe tener 8 caracteres");
                     txtPassword.requestFocusInWindow();

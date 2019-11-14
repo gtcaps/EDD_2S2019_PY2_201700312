@@ -41,9 +41,9 @@ public class UserDashboard extends javax.swing.JFrame {
 
     //----------------------
     public UserDashboard() {
-        
+
         directorioUsuario = user.getDirectorio();
-        
+
         initComponents();
         setLocationRelativeTo(null);
         lblUser.setText(user.getUsuario().toUpperCase());
@@ -51,7 +51,7 @@ public class UserDashboard extends javax.swing.JFrame {
         treeFolders.setEditable(true);
         selectedNode = (DefaultMutableTreeNode) treeFolders.getModel().getRoot();
         selectedNode = (DefaultMutableTreeNode) selectedNode.getRoot();
-                
+
     }
 
     /**
@@ -413,8 +413,8 @@ public class UserDashboard extends javax.swing.JFrame {
                 enabledFoldersButtons();
                 disabledAllFileButtons();
             }
-            
-            if(lbl.getText().equals("/")){
+
+            if (lbl.getText().equals("/") || selectedNode.isRoot()) {
                 disabledAllFoldersButtons();
                 disabledAllFileButtons();
             }
@@ -458,13 +458,14 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarFolderMouseClicked
 
     private void btnEliminarFolderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarFolderMouseClicked
-        if (!lbl.getText().equals("/")) {
+        if (!lbl.getText().equals("/") && !selectedNode.isRoot()) {
             TreeNode[] path = selectedNode.getPath();
             String folderName = path[path.length - 1].toString();
 
             int estasSeguro = JOptionPane.showConfirmDialog(null, "¿Seguro deseas eliminar " + folderName + "?", "Eliminar Carpeta", JOptionPane.YES_NO_OPTION);
 
             if (estasSeguro == JOptionPane.OK_OPTION) {
+                //ELIMINAR DEL JTREE (PARTE VISUAL)
                 DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
                 model.removeNodeFromParent(selectedNode);
                 model.reload();
@@ -474,6 +475,50 @@ public class UserDashboard extends javax.swing.JFrame {
 
                 disabledAllFoldersButtons();
                 disabledAllFileButtons();
+
+                //ELIMINAR DE GRAFO
+                Directorio actual = Main.Main.user.getDirectorio();
+
+//                if(path.length == 2){
+//                    String nombreDirectorio = path[1].toString();
+//                    actual.removeDirectorio(nombreDirectorio);
+//                }else if(path.length == 3){
+//                    actual = actual.getDirectorio(path[1].toString());
+//                    actual.removeDirectorio(path[2].toString());
+//                }else{
+//                    System.out.println("----> " + path.length);
+//                    actual = actual.getDirectorio(path[1].toString());
+//                    for(int i = 2; i < path.length - 1; i++){
+//                        System.out.println("    Estoy en " + actual.getNombre() + " y voy a acceder a " + path[i].toString());
+//                        actual = actual.getDirectorio(path[i].toString());
+//                    }
+//                    System.out.println("        Estoy en " + actual.getNombre() + " y voy a eliminar a " + path[path.length - 1].toString());
+//                    actual.removeDirectorio(path[path.length - 1].toString());
+//                }
+                System.out.println("----> " + path.length);
+                //actual = actual.getDirectorio(path[1].toString());
+                for (int i = 1; i < path.length - 1; i++) {
+                    System.out.println("    Estoy en " + actual.getNombre() + " y voy a acceder a " + path[i].toString());
+                    actual = actual.getDirectorio(path[i].toString());
+                }
+                System.out.println("        Estoy en " + actual.getNombre() + " y voy a eliminar a " + path[path.length - 1].toString());
+                actual.removeDirectorio(path[path.length - 1].toString());
+
+//                String r = "";
+//                //Directorio actual = Main.Main.user.getDirectorio().getDirectorio(path[1].toString());
+//                //System.out.println("Estoy en " + actual.getNombre());
+//                
+////                for(int i = 2; i < path.length - 2; i++){
+////                    actual = actual.getDirectorio(path[i].toString());
+////                    System.out.println("Estoy en " + actual.getNombre());
+////                }
+////                
+////                System.out.println("Estoy en " + actual.getNombre() + "y voy a eliminar");
+////                actual.removeDirectorio(path[path.length - 1].toString());
+////                System.out.println(path[path.length - 1].toString() + "Eliminado");
+//
+//                
+//                System.out.println(r);
             }
 
         }
@@ -509,16 +554,18 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogOffMouseClicked
 
     private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
-        if(evt.isPopupTrigger()){
+        if (evt.isPopupTrigger()) {
             menuReports.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_jPanel1MouseReleased
 
     private void optGraph1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optGraph1MousePressed
-        directorioUsuario.graficar();
-        Reporte r = new Reporte();
-        r.setVisible(true);
-        
+        try {
+            directorioUsuario.graficar();
+            new Reporte().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_optGraph1MousePressed
 
     private void disabledAllFileButtons() {

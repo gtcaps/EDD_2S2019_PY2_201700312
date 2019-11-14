@@ -7,13 +7,12 @@ import java.io.*;
 import java.nio.file.Paths;
 import Views.Login;
 import java.net.URISyntaxException;
-import structures.graph.Directorio;
 
 public class Main {
 
     public static HashTable users = new HashTable();
     public static Bitacora bitacora = new Bitacora();
-    public static Usuario user;
+    public static Usuario user = new Usuario("admin","admin");
     public static Login log = new Login();
 
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
@@ -31,6 +30,31 @@ public class Main {
         log.setVisible(true);
         
         
+        Directorio d = new Directorio("/");
+        
+        d.addDirectorio("lib");
+        d.addDirectorio("var");
+        d.addDirectorio("bin");
+        d.addDirectorio("etc");
+        d.addDirectorio("tmp");
+        d.addDirectorio("usr");
+        
+        d.getDirectorio("usr").addDirectorio("jhon");
+        d.getDirectorio("usr").addDirectorio("mary");
+        
+        d.getDirectorio("usr").getDirectorio("jhon").addDirectorio("hw1");
+        d.getDirectorio("usr").getDirectorio("jhon").addDirectorio("hwg");
+        
+        
+        //d.imprimirDirectorioCompleto();
+        
+        System.out.println("--------------------------------------\n\n\n");
+        
+        d.getDirectorio("usr").getDirectorio("jhon").removeDirectorio("hwg");
+        d.getDirectorio("usr").getDirectorio("jhon").removeDirectorio("hw1");
+        d.getDirectorio("usr").getDirectorio("jhon").removeDirectorio("hwc");
+        
+        //d.imprimirDirectorioCompleto();
         
         
         //-----------------------------NO NECESSARY

@@ -1,0 +1,39 @@
+digraph G{
+   rankdir = LR;
+   node[shape=record];
+   graph[ranksep="1"];
+
+   root_0[label="/ \n  6"];
+    root_0->temp_1;
+    root_0->var_1;
+    root_0->user_1;
+    root_0->home_1;
+    root_0->documents_1;
+    root_0->lib_1;
+temp_1[label="temp \n  1"];
+    temp_1->cache_2;
+cache_2[label="cache \n  0"];
+var_1[label="var \n  1"];
+    var_1->oracle_2;
+oracle_2[label="oracle \n  0"];
+user_1[label="user \n  2"];
+    user_1->credentials_2;
+    user_1->folder_2;
+credentials_2[label="credentials \n  0"];
+folder_2[label="folder \n  0"];
+home_1[label="home \n  2"];
+    home_1->documents_2;
+    home_1->videos_2;
+documents_2[label="documents \n  1"];
+    documents_2->usac_3;
+usac_3[label="usac \n  0"];
+videos_2[label="videos \n  0"];
+documents_1[label="documents \n  1"];
+    documents_1->universidad_2;
+universidad_2[label="universidad \n  0"];
+lib_1[label="lib \n  0"];
+
+labelloc="t";
+label="Directorios - USUARIO: realmadrid";
+
+}

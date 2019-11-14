@@ -32,6 +32,10 @@ public class Directorio {
     public Directorio getDirectorio(String nombreDirectorio) {
         return directorios.get(nombreDirectorio);
     }
+    
+    public void removeDirectorio(String nombreDirectorio){
+        directorios.eliminar(nombreDirectorio);
+    }
 
     public void imprimirDirectorio() {
         System.out.println(nombre);

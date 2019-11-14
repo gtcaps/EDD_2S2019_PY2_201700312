@@ -87,7 +87,6 @@ public class ListaDirectorios{
     private void eliminarInicio(){
         if(!isNull(cabeza)){
             cabeza = cabeza.getSiguiente();
-            cabeza.setAnterior(null);
             size--;
         }
     }
@@ -111,17 +110,17 @@ public class ListaDirectorios{
                 Node aux = cabeza;
                 
                 while(!isNull(aux)){
-                    if(aux.getDirectorio().getNombre().equals(nombreDirectorio)){
+                    
+                    if(aux.getDirectorio().getNombre().equals(nombreDirectorio)){                      
                         aux.getAnterior().setSiguiente(aux.getSiguiente());
                         aux.getSiguiente().setAnterior(aux.getAnterior());
                         aux = null;
+                        size--;
                         break;
                     }
                     aux = aux.getSiguiente();
                 }
-                
             }
-            
             
         }
     }
