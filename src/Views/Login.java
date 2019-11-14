@@ -165,8 +165,9 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
 
-        JOptionPane.showMessageDialog(null,"Crear Nuevo Usuario");
-        bitacora.graph();
+        NewUser userWindow = new NewUser();
+        userWindow.setVisible(true);
+        
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
@@ -184,6 +185,7 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
             }else{
                 JOptionPane.showMessageDialog(null, "Revise sus datos");
+                txtUser.requestFocusInWindow();
             }
         }
         

@@ -9,17 +9,44 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import structures.graph.Directorio;
 
 public class Usuario {
 
     private String usuario;
     private String password;
     private String fechaCreacion;
+    private Directorio directorio;
 
     public Usuario(String usuario, String password){
         this.usuario = usuario;
         this.password = encrypt_pass(password);
         this.fechaCreacion = getDate();
+        this.directorio = new Directorio("/");
+        
+        
+        //------------------- CODIGO DE PRUEBA PARA SIMULAR CARPETAS ----------------------- DEBE DE SER BORRADO ---------
+        directorio.addDirectorio("temp");
+        directorio.addDirectorio("var");
+        directorio.addDirectorio("user");
+        directorio.addDirectorio("home");
+        directorio.addDirectorio("documents");
+        directorio.addDirectorio("lib");
+        
+        directorio.getDirectorio("temp").addDirectorio("cache");
+        
+        directorio.getDirectorio("var").addDirectorio("oracle");
+        
+        directorio.getDirectorio("user").addDirectorio("credentials");
+        directorio.getDirectorio("user").addDirectorio("folder");
+        
+        directorio.getDirectorio("home").addDirectorio("documents");
+        directorio.getDirectorio("home").addDirectorio("videos");
+        
+        directorio.getDirectorio("home").getDirectorio("documents").addDirectorio("usac");
+        
+        directorio.getDirectorio("documents").addDirectorio("universidad");
+        //-----------------------------------------------------------------------------------------------------------------
     }
 
     public String getUsuario() {
@@ -74,4 +101,9 @@ public class Usuario {
         DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh::mm::ss.SSS");
         return dateFormat.format(date);
     }
+    
+    public Directorio getDirectorio(){
+        return directorio;
+    }
+    
 }

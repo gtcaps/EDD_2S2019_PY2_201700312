@@ -15,8 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream.Filter;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -33,14 +31,19 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
+import structures.graph.Directorio;
 
 public class UserDashboard extends javax.swing.JFrame {
 
     //----------------------
-    DefaultMutableTreeNode selectedNode;
+    private DefaultMutableTreeNode selectedNode;
+    private Directorio directorioUsuario;
 
     //----------------------
     public UserDashboard() {
+        
+        directorioUsuario = user.getDirectorio();
+        
         initComponents();
         setLocationRelativeTo(null);
         lblUser.setText(user.getUsuario().toUpperCase());
@@ -48,10 +51,7 @@ public class UserDashboard extends javax.swing.JFrame {
         treeFolders.setEditable(true);
         selectedNode = (DefaultMutableTreeNode) treeFolders.getModel().getRoot();
         selectedNode = (DefaultMutableTreeNode) selectedNode.getRoot();
-        
-        n.imprimirDirectorioCompleto();
-        
-
+                
     }
 
     /**
@@ -63,12 +63,17 @@ public class UserDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        menuReports = new javax.swing.JPopupMenu();
+        optGraph1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         btnLogOff = new java.awt.Button();
         jScrollPane1 = new javax.swing.JScrollPane();
-        treeFolders = new javax.swing.JTree(n.getTreeRoot());
+        Icon closedIcon = new javax.swing.ImageIcon(getClass().getResource("/images/file.png"));
+        Icon leafIcon = new javax.swing.ImageIcon(getClass().getResource("/images/file.png"));
+        Icon openIcon = new javax.swing.ImageIcon(getClass().getResource("/images/file.png"));
+        treeFolders = new javax.swing.JTree(directorioUsuario.getTreeRoot());
         lbl = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -87,10 +92,23 @@ public class UserDashboard extends javax.swing.JFrame {
         btnDescargarArchivo = new java.awt.Button();
         txtCarga = new javax.swing.JLabel();
 
+        optGraph1.setText("Graficar Directorio");
+        optGraph1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                optGraph1MousePressed(evt);
+            }
+        });
+        menuReports.add(optGraph1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel1MouseReleased(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(153, 153, 153));
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
@@ -113,6 +131,11 @@ public class UserDashboard extends javax.swing.JFrame {
             }
         });
 
+        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeFolders.getCellRenderer();
+        renderer.setLeafIcon(leafIcon);
+        renderer.setOpenIcon(openIcon);
+        renderer.setClosedIcon(closedIcon);
+        renderer.updateUI();
         treeFolders.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 treeFoldersMouseClicked(evt);
@@ -485,6 +508,19 @@ public class UserDashboard extends javax.swing.JFrame {
         log.setVisible(true);
     }//GEN-LAST:event_btnLogOffMouseClicked
 
+    private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
+        if(evt.isPopupTrigger()){
+            menuReports.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jPanel1MouseReleased
+
+    private void optGraph1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optGraph1MousePressed
+        directorioUsuario.graficar();
+        Reporte r = new Reporte();
+        r.setVisible(true);
+        
+    }//GEN-LAST:event_optGraph1MousePressed
+
     private void disabledAllFileButtons() {
         btnModificarArchivo.setEnabled(false);
         btnEliminarArchivo.setEnabled(false);
@@ -553,6 +589,8 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lbl;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JPopupMenu menuReports;
+    private javax.swing.JMenuItem optGraph1;
     private javax.swing.JTree treeFolders;
     private javax.swing.JLabel txtCarga;
     // End of variables declaration//GEN-END:variables

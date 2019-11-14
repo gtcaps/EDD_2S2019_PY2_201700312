@@ -62,9 +62,10 @@ public class Directorio {
         try {
             String s = "";
             s = graficar(this, 0);
-            System.out.println("--asd-----------------------");
-            System.out.println(s);
-            Graphic g = new Graphic("graph", s, "LR");
+            s += "\nlabelloc=\"t\";\n";
+            s += "label=\""+ "Directorios - USUARIO: " + Main.Main.user.getUsuario()  +"\";\n";
+            
+            Graphic g = new Graphic("graph_"+Main.Main.user.getUsuario(), s, "LR","neato",true);
         } catch (IOException ex) {
             Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -100,10 +101,8 @@ public class Directorio {
     
     private void getTreeRoot(Directorio folder, DefaultMutableTreeNode node){
         
-        System.out.println(folder.getNombre());
         Directorio [] di = folder.getDirectorios().getIterable();
         for(Directorio d: di){
-            System.out.println("        " + d.getNombre());
             DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(d.getNombre());
             node.add(newNode);
             getTreeRoot(d, newNode);
@@ -116,42 +115,6 @@ public class Directorio {
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(nombre);
         getTreeRoot(this, root);
-        
-        /*
-        //------
-        System.out.println("--".repeat(level) + d.getNombre() + " con " + d.getDirectorios().getSize() + " directorios dentro ");
-
-        Directorio[] ds = d.getDirectorios().getIterable();
-
-        for (Directorio folder : ds) {
-            imprimirDirectorioCompleto(folder, level + 1);
-        }
-
-        //---------
-        ArrayList<String> l = new ArrayList<>();
-        ArrayList<String> l1 = new ArrayList<>();
-
-        l.add("folder");
-        l1.add("f1");
-        l1.add("f2");
-        l1.add("f3");
-        l.add("folder2");
-        l.add("folder3");
-
-        Iterator i = l.iterator();
-        while (i.hasNext()) {
-            Iterator j = l1.iterator();
-            String ss = i.next().toString();
-
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(ss);
-
-            while (j.hasNext()) {
-                node.add(new DefaultMutableTreeNode(j.next().toString()));
-            }
-
-            root.add(node);
-        }
-        */
         return root;
     }
 

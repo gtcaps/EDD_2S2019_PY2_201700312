@@ -15,34 +15,8 @@ public class Main {
     public static Bitacora bitacora = new Bitacora();
     public static Usuario user;
     public static Login log = new Login();
-    public static Directorio n = new Directorio("/");
 
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
-
-        
-        n.addDirectorio("temp");
-        n.addDirectorio("var");
-        n.addDirectorio("user");
-        n.addDirectorio("home");
-        n.addDirectorio("documents");
-        
-        n.getDirectorio("temp").addDirectorio("cache");
-        
-        n.getDirectorio("var").addDirectorio("oracle");
-        
-        n.getDirectorio("user").addDirectorio("credentials");
-        n.getDirectorio("user").addDirectorio("folder");
-        
-        n.getDirectorio("home").addDirectorio("documents");
-        n.getDirectorio("home").addDirectorio("videos");
-        
-        n.getDirectorio("home").getDirectorio("documents").addDirectorio("usac");
-        
-        n.getDirectorio("documents").addDirectorio("universidad");
-        
-        
-        
-        
         
         String project_path = "C:\\Users\\aybso\\OneDrive\\Documents\\Universidad\\EDD\\Laboratorio\\DS_DRIVE\\";
         
@@ -101,6 +75,7 @@ public class Main {
     }
 
     public static void bulkLoadingUsers(String filename) throws IOException {
+        bitacora.add("Carga Masiva", "Se cargaron los usuarios de  " + filename);
         users.addCSV(filename);
     }
 

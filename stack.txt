@@ -1,7 +1,0 @@
-digraph G{
-   rankdir = LR;
-   node[shape=record];
-   graph[ranksep="1"];
-
-   node_empty[label="The stack is empty"];
-}

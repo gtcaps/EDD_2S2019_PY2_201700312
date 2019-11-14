@@ -23,7 +23,25 @@ public class Graphic {
         this.writer.close();
 
         generateGraphic(fileName);
-        executeCommand(".\\$.png".replace("$",fileName));
+        //executeCommand(".\\$.png".replace("$",fileName));
+    }
+    
+    public Graphic(String fileName, String fileData, String rankdir, String type, boolean x) throws IOException, InterruptedException {
+        this.fileName = fileName + ".txt";
+        this.fileData = String.format("" +
+                        "digraph G{\n" +
+                        "   rankdir = %s;\n" +
+                        "   node[shape=record];\n" +
+                        "   graph[ranksep=\"1\"];\n" +
+                        "\n" +
+                        "   %s\n" +
+                        "}", rankdir, fileData);
+        this.writer = new BufferedWriter(new FileWriter(this.fileName));
+        this.writer.write(this.fileData);
+        this.writer.close();
+
+        generateGraphic(fileName, type);
+        //executeCommand("./src/images/$.png".replace("$",fileName));
     }
 
     public Graphic(String fileName, String fileData, String rankdir, String nodeShape ) throws IOException, InterruptedException {
@@ -44,7 +62,23 @@ public class Graphic {
     }
 
     private void generateGraphic(String fileName) throws IOException, InterruptedException {
-        executeCommand("dot -Tpng $.txt -o $.png".replace("$", fileName));
+        executeCommand("dot -Tpng $.txt -o ./src/images/$.png".replace("$", fileName));
+        
+        if(!new File("C:/reports").exists()){
+            executeCommand("mkdir C:/reports");
+        }
+        
+        executeCommand("dot -Tpng $.txt -o C:/reports/$.png".replace("$", fileName));
+        
+    }
+    
+    private void generateGraphic(String fileName, String type) throws IOException, InterruptedException {
+        
+        if(!new File("C:/reports").exists()){
+            executeCommand("mkdir C:/reports");
+        }
+        
+        executeCommand(type + " -Tpng $.txt -o C:/reports/$.png".replace("$", fileName));
     }
 
     private void executeCommand(String command) throws IOException, InterruptedException {
