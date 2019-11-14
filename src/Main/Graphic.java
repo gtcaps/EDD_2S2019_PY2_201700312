@@ -73,8 +73,10 @@ public class Graphic {
 
     private void generateGraphic(String fileName) throws IOException, InterruptedException {
         
+        System.out.println(new File("C:/reports").exists());
+        
         if(!new File("C:/reports").exists()){
-            executeCommand("mkdir C:/reports");
+            new File("C:/reports").mkdirs();
         }
 
         
@@ -84,8 +86,11 @@ public class Graphic {
     
     private void generateGraphic(String fileName, String type) throws IOException, InterruptedException {
         
+        
+        System.out.println(new File("C:/reports").exists());
+        
         if(!new File("C:/reports").exists()){
-            executeCommand("mkdir C:/reports");
+            new File("C:/reports").mkdirs();
         }
         
         File f = new File("C:/reports/" + fileName + ".png");
