@@ -129,6 +129,19 @@ public class ListaDirectorios{
     private boolean isNull(Node nodo){
         return nodo == null;
     }
+    
+    public boolean existe(String nombreDirectorio){
+        if(!isNull(cabeza)){
+            Node aux = cabeza;
+            while(!isNull(aux)){
+                if(aux.getDirectorio().getNombre().equals(nombreDirectorio)){
+                    return true;
+                }
+                aux = aux.getSiguiente();
+            }
+        }
+        return false;
+    }
 
     
 }

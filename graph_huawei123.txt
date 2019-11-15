@@ -9,7 +9,7 @@ digraph G{
     root_0->user_1;
     root_0->home_1;
     root_0->documents_1;
-    root_0->lib_1;
+    root_0->librerias_1;
 temp_1[label="temp \n  1"];
     temp_1->cache_2;
 cache_2[label="cache \n  0"];
@@ -31,7 +31,7 @@ videos_2[label="videos \n  0"];
 documents_1[label="documents \n  1"];
     documents_1->universidad_2;
 universidad_2[label="universidad \n  0"];
-lib_1[label="lib \n  0"];
+librerias_1[label="librerias \n  0"];
 
 labelloc="t";
 label="Directorios - USUARIO: huawei123";

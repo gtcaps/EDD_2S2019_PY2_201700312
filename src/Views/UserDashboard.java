@@ -429,41 +429,100 @@ public class UserDashboard extends javax.swing.JFrame {
 
     private void btnCrearFolderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearFolderMouseClicked
 
-        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(JOptionPane.showInputDialog(null, "Nombre del Folder"));
-        selectedNode.add(newNode);
+        //SOLICITO AL USUARIO EL NOMBRE DEL DIRECTORIO QUE DESEA CREAR
+        String nombreNuevoFolder = JOptionPane.showInputDialog(null, "Nombre del Folder").replace(".", "");
 
-        DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
-        model.reload();
+        //VERIFICO QUE EL NOMBRE DEL FOLDER NO VENGA VACIO O EN BLANCO
+        if (nombreNuevoFolder.isBlank() || nombreNuevoFolder.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede agregar un directorio en blanco");
+        } else {
+            TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL FOLDER EN DONDE VOY A CREAR EL NUEVO DIRECTORIO
+            Directorio actual = Main.Main.user.getDirectorio(); //ME POSICIONO EN EL DIRECTORIO RAIZ DEL USUARIO Y LO GUARDO EN UNA VARIABLE QUE SE MODIFICARA HASTA LLEGAR AL DIRECTORIO DESEADO
 
-        disabledAllFoldersButtons();
-    }//GEN-LAST:event_btnCrearFolderMouseClicked
+            //UTILIZO UN FOR PARA PODER ACCEDER A CADA DIRECTORIO QUE TIENE LA VARIABLE PATH
+            //LA VARIABLE ACTUAL SE VA MODIFICANDO OBTIENDO EL DIRECTORIO QUE SIGUE EN LA RUTA
+            for (int i = 1; i < path.length; i++) {
+                actual = actual.getDirectorio(path[i].toString());
+            }
 
-    private void btnModificarFolderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarFolderMouseClicked
-        if (!lbl.getText().equals("/")) {
-            TreeNode[] path = selectedNode.getPath();
-            String folderName = path[path.length - 1].toString();
+            //VERIFICO SI EL DIRECTORIO QUE DESEO AGREGAR EXISTE DENTRO DEL DIRECTORIO
+            if (actual.getDirectorios().existe(nombreNuevoFolder)) {
+                JOptionPane.showMessageDialog(null, "No puede agregar el directorio " + nombreNuevoFolder + ", porque ya existe dentro de " + actual.getNombre());
+            } else {
+                JOptionPane.showMessageDialog(null, "Se agrego exitosamente el directorio " + nombreNuevoFolder + " dentro de " + actual.getNombre());
+                actual.addDirectorio(nombreNuevoFolder);//AGREGO AL DIRECTORIO EL NUEVO FOLDER
 
-            String newFolderName = JOptionPane.showInputDialog(null, "Ingresa el nombre del folder: ", folderName);
+                //CREAR CARPETA DENTRO DEL JTREE (PARTE VISUAL)
+                DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(nombreNuevoFolder);
+                selectedNode.add(newNode);
 
-            if (!newFolderName.isBlank() && !newFolderName.equals(folderName)) {
-                selectedNode.setUserObject(newFolderName);
                 DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
                 model.reload();
 
                 disabledAllFoldersButtons();
-                disabledAllFileButtons();
+            }
+        }
+
+    }//GEN-LAST:event_btnCrearFolderMouseClicked
+
+    private void btnModificarFolderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarFolderMouseClicked
+        //VERIFICO SI EL NODO SELECCIONADO NO ES LA RAIZ
+        if (!lbl.getText().equals("/") && !selectedNode.isRoot()) {
+            TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA COMPLETA DEL NODO SELECCIONADO
+            String folderName = path[path.length - 1].toString(); //OBTENGO EL NOMBRE DE LA CARPETA ACTUAL
+
+            //SOLICITO AL USUARIO EL NUEVO NOMBRE DE LA CARPETA
+            String nombreNuevoFolder = JOptionPane.showInputDialog(null, "Ingresa el nombre del folder: ", folderName);
+
+            //VERIFICO QUE EL NUEVO NOMBRE QUE EL USUARIO COLOCA, NO ESTE EN BLANCO Y QUE NO SEA EL MISMO
+            if (!nombreNuevoFolder.isBlank() && !nombreNuevoFolder.equals(folderName)) {
+
+                //CREO UNA VARIABLE DIRECTORIO QUE VA A OBTENER LOS DIRECTORIOS DEL USUARIO
+                //Y EN ESTA VARIABLE SE VA A CONTROLAR EL ACCESO DE LAS CARPETAS DE LA RUTA
+                Directorio actual = Main.Main.user.getDirectorio();
+
+                //VOY ACCEDIENDO A CADA CARPETA DEL PATH Y LO VOY GUARDANDO DENTRO DE LA VARIABLE
+                //actual Y ME DETENGO CUANDO LLEGUE A LA CARPETA PADRE DE LA CARPETA QUE DESEO MODIFICAR
+                for (int i = 1; i < path.length - 1; i++) {
+                    actual = actual.getDirectorio(path[i].toString());
+                }
+
+                //CREO UNA VARIABLE modificar QUE GUARDA EL ULTIMO DIRECTORIO DE LA RUTA QUE ES EL DIRECTORIO 
+                //EN EL CUAL MODIFICAREMOS EL NOMBRE
+                Directorio modificar = actual.getDirectorio(path[path.length - 1].toString());
+
+                //VERIFICO SI EL DIRECTORIO PADRE TIENE OTRO FOLDER CON EL NOMBRE QUE DESEO QUE TENGA EL NUEVO
+                if (actual.getDirectorios().existe(nombreNuevoFolder)) {
+                    //SI YA EXISTE, MUESTRO UN MENSAJE DE ERROR
+                    JOptionPane.showMessageDialog(null, "No se puede modificar el nombre del directorio " + folderName + ", porque ya existe dentro de " + actual.getNombre());
+                } else {
+                    //SI NO EXISTE, MUESTRO UN MENSAJE DE MODIFICACION
+                    JOptionPane.showMessageDialog(null, "Se modifico exitosamente el directorio " + folderName + " ahora es " + actual.getNombre() + "/" + nombreNuevoFolder);
+                    modificar.setNombre(nombreNuevoFolder); // MODIFICO EL NOMBRE DE LA CARPETA 
+
+                    //ACTUALIZO EL JTREE (PARTE VISUAL)
+                    selectedNode.setUserObject(nombreNuevoFolder);
+                    DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
+                    model.reload();
+
+                    disabledAllFoldersButtons();
+                    disabledAllFileButtons();
+                }
             }
 
         }
     }//GEN-LAST:event_btnModificarFolderMouseClicked
 
     private void btnEliminarFolderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarFolderMouseClicked
+        //VERIFICO QUE EL NODO QUE SE DESEA ELIMINAR NO SEA LA RAIZ
         if (!lbl.getText().equals("/") && !selectedNode.isRoot()) {
-            TreeNode[] path = selectedNode.getPath();
-            String folderName = path[path.length - 1].toString();
+            TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL JTREE DEL NODO SELECCIONADO
+            String folderName = path[path.length - 1].toString(); //OBTENGO EL NOMBRE DEL FOLDER SELECCIONADO
 
+            //SOLICITO SI SE DESEA ELIMINAR LA CARPETA
             int estasSeguro = JOptionPane.showConfirmDialog(null, "¿Seguro deseas eliminar " + folderName + "?", "Eliminar Carpeta", JOptionPane.YES_NO_OPTION);
 
+            //SI LA RESPUESTA ES AFIRMATIVA SE PROCEDE A ELIMINAR EL NODO DEL GRADO DE DIRECTORIOS Y DE LA VISTA DEL JTREE
             if (estasSeguro == JOptionPane.OK_OPTION) {
                 //ELIMINAR DEL JTREE (PARTE VISUAL)
                 DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
@@ -479,46 +538,11 @@ public class UserDashboard extends javax.swing.JFrame {
                 //ELIMINAR DE GRAFO
                 Directorio actual = Main.Main.user.getDirectorio();
 
-//                if(path.length == 2){
-//                    String nombreDirectorio = path[1].toString();
-//                    actual.removeDirectorio(nombreDirectorio);
-//                }else if(path.length == 3){
-//                    actual = actual.getDirectorio(path[1].toString());
-//                    actual.removeDirectorio(path[2].toString());
-//                }else{
-//                    System.out.println("----> " + path.length);
-//                    actual = actual.getDirectorio(path[1].toString());
-//                    for(int i = 2; i < path.length - 1; i++){
-//                        System.out.println("    Estoy en " + actual.getNombre() + " y voy a acceder a " + path[i].toString());
-//                        actual = actual.getDirectorio(path[i].toString());
-//                    }
-//                    System.out.println("        Estoy en " + actual.getNombre() + " y voy a eliminar a " + path[path.length - 1].toString());
-//                    actual.removeDirectorio(path[path.length - 1].toString());
-//                }
-                System.out.println("----> " + path.length);
-                //actual = actual.getDirectorio(path[1].toString());
                 for (int i = 1; i < path.length - 1; i++) {
-                    System.out.println("    Estoy en " + actual.getNombre() + " y voy a acceder a " + path[i].toString());
                     actual = actual.getDirectorio(path[i].toString());
                 }
-                System.out.println("        Estoy en " + actual.getNombre() + " y voy a eliminar a " + path[path.length - 1].toString());
                 actual.removeDirectorio(path[path.length - 1].toString());
 
-//                String r = "";
-//                //Directorio actual = Main.Main.user.getDirectorio().getDirectorio(path[1].toString());
-//                //System.out.println("Estoy en " + actual.getNombre());
-//                
-////                for(int i = 2; i < path.length - 2; i++){
-////                    actual = actual.getDirectorio(path[i].toString());
-////                    System.out.println("Estoy en " + actual.getNombre());
-////                }
-////                
-////                System.out.println("Estoy en " + actual.getNombre() + "y voy a eliminar");
-////                actual.removeDirectorio(path[path.length - 1].toString());
-////                System.out.println(path[path.length - 1].toString() + "Eliminado");
-//
-//                
-//                System.out.println(r);
             }
 
         }
