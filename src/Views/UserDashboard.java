@@ -67,6 +67,7 @@ public class UserDashboard extends javax.swing.JFrame {
         optGraph1 = new javax.swing.JMenuItem();
         optGraphBitacora = new javax.swing.JMenuItem();
         opcReporteMatriz = new javax.swing.JMenuItem();
+        opcReporteHash = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -94,7 +95,7 @@ public class UserDashboard extends javax.swing.JFrame {
         btnDescargarArchivo = new java.awt.Button();
         txtCarga = new javax.swing.JLabel();
 
-        optGraph1.setText("Graficar Directorio");
+        optGraph1.setText("Reporte Directorio (Grafo)");
         optGraph1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 optGraph1MousePressed(evt);
@@ -102,7 +103,7 @@ public class UserDashboard extends javax.swing.JFrame {
         });
         menuReports.add(optGraph1);
 
-        optGraphBitacora.setText("Reporte Bitacora");
+        optGraphBitacora.setText("Reporte Bitacora (Pila)");
         optGraphBitacora.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 optGraphBitacoraMousePressed(evt);
@@ -110,13 +111,21 @@ public class UserDashboard extends javax.swing.JFrame {
         });
         menuReports.add(optGraphBitacora);
 
-        opcReporteMatriz.setText("Reporte Matriz");
+        opcReporteMatriz.setText("Reporte Matriz Adyacencia");
         opcReporteMatriz.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 opcReporteMatrizMousePressed(evt);
             }
         });
         menuReports.add(opcReporteMatriz);
+
+        opcReporteHash.setText("Reporte Tabla Hash");
+        opcReporteHash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                opcReporteHashMousePressed(evt);
+            }
+        });
+        menuReports.add(opcReporteHash);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
@@ -595,6 +604,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private void btnLogOffMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogOffMouseClicked
         this.dispose();
         log.setVisible(true);
+        bitacora.add(user.getUsuario(), "Cerro Sesion ");
     }//GEN-LAST:event_btnLogOffMouseClicked
 
     private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
@@ -629,6 +639,17 @@ public class UserDashboard extends javax.swing.JFrame {
             Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_opcReporteMatrizMousePressed
+
+    private void opcReporteHashMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcReporteHashMousePressed
+        try {
+            users.graph();
+            new Reporte("hashTable.png").setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_opcReporteHashMousePressed
 
     private void disabledAllFileButtons() {
         btnModificarArchivo.setEnabled(false);
@@ -699,6 +720,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lbl;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPopupMenu menuReports;
+    private javax.swing.JMenuItem opcReporteHash;
     private javax.swing.JMenuItem opcReporteMatriz;
     private javax.swing.JMenuItem optGraph1;
     private javax.swing.JMenuItem optGraphBitacora;

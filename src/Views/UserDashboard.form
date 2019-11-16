@@ -10,7 +10,7 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="optGraph1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Graficar Directorio"/>
+            <Property name="text" type="java.lang.String" value="Reporte Directorio (Grafo)"/>
           </Properties>
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="optGraph1MousePressed"/>
@@ -18,7 +18,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="optGraphBitacora">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Reporte Bitacora"/>
+            <Property name="text" type="java.lang.String" value="Reporte Bitacora (Pila)"/>
           </Properties>
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="optGraphBitacoraMousePressed"/>
@@ -26,10 +26,18 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="opcReporteMatriz">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Reporte Matriz"/>
+            <Property name="text" type="java.lang.String" value="Reporte Matriz Adyacencia"/>
           </Properties>
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="opcReporteMatrizMousePressed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="opcReporteHash">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reporte Tabla Hash"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="opcReporteHashMousePressed"/>
           </Events>
         </MenuItem>
       </SubComponents>
