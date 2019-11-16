@@ -65,6 +65,8 @@ public class UserDashboard extends javax.swing.JFrame {
 
         menuReports = new javax.swing.JPopupMenu();
         optGraph1 = new javax.swing.JMenuItem();
+        optGraphBitacora = new javax.swing.JMenuItem();
+        opcReporteMatriz = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -99,6 +101,22 @@ public class UserDashboard extends javax.swing.JFrame {
             }
         });
         menuReports.add(optGraph1);
+
+        optGraphBitacora.setText("Reporte Bitacora");
+        optGraphBitacora.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                optGraphBitacoraMousePressed(evt);
+            }
+        });
+        menuReports.add(optGraphBitacora);
+
+        opcReporteMatriz.setText("Reporte Matriz");
+        opcReporteMatriz.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                opcReporteMatrizMousePressed(evt);
+            }
+        });
+        menuReports.add(opcReporteMatriz);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
@@ -451,6 +469,7 @@ public class UserDashboard extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Se agrego exitosamente el directorio " + nombreNuevoFolder + " dentro de " + actual.getNombre());
                 actual.addDirectorio(nombreNuevoFolder);//AGREGO AL DIRECTORIO EL NUEVO FOLDER
+                bitacora.add(user.getUsuario(), "Agrego el directorio " + actual.getNombre() + "/" + nombreNuevoFolder);
 
                 //CREAR CARPETA DENTRO DEL JTREE (PARTE VISUAL)
                 DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(nombreNuevoFolder);
@@ -499,8 +518,9 @@ public class UserDashboard extends javax.swing.JFrame {
                     //SI NO EXISTE, MUESTRO UN MENSAJE DE MODIFICACION
                     JOptionPane.showMessageDialog(null, "Se modifico exitosamente el directorio " + folderName + " ahora es " + actual.getNombre() + "/" + nombreNuevoFolder);
                     modificar.setNombre(nombreNuevoFolder); // MODIFICO EL NOMBRE DE LA CARPETA 
-
-                    //ACTUALIZO EL JTREE (PARTE VISUAL)
+                    bitacora.add(user.getUsuario(), "Modifico Directorio " + folderName + " por " + nombreNuevoFolder);
+                    
+                    //ACTUALIZO EL JTREE (PARTE VISUAL)EE
                     selectedNode.setUserObject(nombreNuevoFolder);
                     DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
                     model.reload();
@@ -542,7 +562,7 @@ public class UserDashboard extends javax.swing.JFrame {
                     actual = actual.getDirectorio(path[i].toString());
                 }
                 actual.removeDirectorio(path[path.length - 1].toString());
-
+                bitacora.add(user.getUsuario(), "Elimino Directorio " + path[path.length - 1].toString() );
             }
 
         }
@@ -586,11 +606,29 @@ public class UserDashboard extends javax.swing.JFrame {
     private void optGraph1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optGraph1MousePressed
         try {
             directorioUsuario.graficar();
-            new Reporte().setVisible(true);
+            new Reporte("graph_"+user.getUsuario()+".png").setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_optGraph1MousePressed
+
+    private void optGraphBitacoraMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optGraphBitacoraMousePressed
+        try {
+            bitacora.graph();
+            new Reporte("stack.png").setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_optGraphBitacoraMousePressed
+
+    private void opcReporteMatrizMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcReporteMatrizMousePressed
+        try {
+            directorioUsuario.graficarMatrizAdyacencia();
+            new Reporte("matrix.png").setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_opcReporteMatrizMousePressed
 
     private void disabledAllFileButtons() {
         btnModificarArchivo.setEnabled(false);
@@ -661,7 +699,9 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lbl;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPopupMenu menuReports;
+    private javax.swing.JMenuItem opcReporteMatriz;
     private javax.swing.JMenuItem optGraph1;
+    private javax.swing.JMenuItem optGraphBitacora;
     private javax.swing.JTree treeFolders;
     private javax.swing.JLabel txtCarga;
     // End of variables declaration//GEN-END:variables

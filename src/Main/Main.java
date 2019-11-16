@@ -7,20 +7,21 @@ import java.io.*;
 import java.nio.file.Paths;
 import Views.Login;
 import java.net.URISyntaxException;
+import java.util.regex.Pattern;
 
 public class Main {
 
     public static HashTable users = new HashTable();
     public static Bitacora bitacora = new Bitacora();
-    public static Usuario user = new Usuario("admin","admin");
+    public static Usuario user = new Usuario("admin", "admin");
     public static Login log = new Login();
 
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
-        
+
         String project_path = "C:\\Users\\aybso\\OneDrive\\Documents\\Universidad\\EDD\\Laboratorio\\DS_DRIVE\\";
-        
-        bulkLoadingUsers( project_path + "users.csv");
-        addUser("huawei123","123123123");
+
+        bulkLoadingUsers(project_path + "users.csv");
+        addUser("huawei123", "123123123");
         //bulkLoadingUsers("users2.csv");
         //graphUsers();
         //Thread.sleep(1000);
@@ -28,45 +29,17 @@ public class Main {
         //graphUsers();
 
         log.setVisible(true);
-        
-        
-        Directorio d = new Directorio("/");
-        
-        d.addDirectorio("lib");
-        d.addDirectorio("var");
-        d.addDirectorio("bin");
-        d.addDirectorio("etc");
-        d.addDirectorio("tmp");
-        d.addDirectorio("usr");
-        
-        d.getDirectorio("usr").addDirectorio("jhon");
-        d.getDirectorio("usr").addDirectorio("mary");
-        
-        d.getDirectorio("usr").getDirectorio("jhon").addDirectorio("hw1");
-        d.getDirectorio("usr").getDirectorio("jhon").addDirectorio("hwg");
-        
-        
-        //d.imprimirDirectorioCompleto();
-        
-        System.out.println("--------------------------------------\n\n\n");
-        
-        d.getDirectorio("usr").getDirectorio("jhon").removeDirectorio("hwg");
-        d.getDirectorio("usr").getDirectorio("jhon").removeDirectorio("hw1");
-        d.getDirectorio("usr").getDirectorio("jhon").removeDirectorio("hwc");
-        
-        //d.imprimirDirectorioCompleto();
-        
-        
+
+
+
         //-----------------------------NO NECESSARY
         /*
         String [] invalid_users = t.getInvalidUsers();
         for(String u: invalid_users){
             System.out.println(u);
         }
-        */
-
-
-        /*
+         */
+ /*
         Bitacora bitacora = new Bitacora();
         bitacora.add("Pedro", "Elimino Carpeta Movies");
         Thread.sleep(1000);
@@ -74,16 +47,14 @@ public class Main {
         Thread.sleep(5000);
         bitacora.add("Domingo", "Elimino Carpeta Pictures");
         bitacora.graph();
-        */
-
+         */
     }
 
-    
-    public static boolean initSession(String usuario, String password){
+    public static boolean initSession(String usuario, String password) {
         Usuario u = users.getUsuario(usuario);
 
-        if(!u.getUsuario().isBlank()){
-            if(u.verifyPassword(password)) {
+        if (!u.getUsuario().isBlank()) {
+            if (u.verifyPassword(password)) {
                 System.out.println("Bienvenido " + u.getUsuario() + " has iniciado sesion exitosamente");
                 user = u;
                 return true;
@@ -94,18 +65,20 @@ public class Main {
         return false;
     }
 
-    public static void addUser(String usuario, String password){
+    public static void addUser(String usuario, String password) {
+        bitacora.add(usuario, "Se registro un nuevo usuario");
         users.add(usuario, new Usuario(usuario, password));
     }
 
     public static void bulkLoadingUsers(String filename) throws IOException {
-        bitacora.add("Carga Masiva", "Se cargaron los usuarios de  " + filename);
+        String[] name = filename.split(Pattern.quote("\\"));
+
+        bitacora.add("Administrador", "Carga Masiva - " + name[name.length - 1]);
         users.addCSV(filename);
     }
 
     public static void graphUsers() throws IOException, InterruptedException {
         users.graph();
     }
-
 
 }

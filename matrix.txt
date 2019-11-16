@@ -1,0 +1,25 @@
+digraph G{
+   rankdir = LR;
+   node[shape=record];
+   graph[ranksep="1"];
+
+   init[label="", shape="circle", pos="0,0!"];
+root_y[label="root", pos="0,-2.0!"];
+__lib_2_y[label="//lib", pos="4.0,-2.0!"];
+__usr_3_y[label="//usr", pos="6.0,-2.0!"];
+__src_4_y[label="//src", pos="8.0,-2.0!"];
+lib_y[label="lib", pos="0,-4.0!"];
+usr_y[label="usr", pos="0,-6.0!"];
+src_y[label="src", pos="0,-8.0!"];
+root_x[label="root", pos="2.0,0!"];
+lib_x[label="lib", pos="4.0,0!"];
+usr_x[label="usr", pos="6.0,0!"];
+src_x[label="src", pos="8.0,0!"];
+init -> root_y  ->lib_y  ->usr_y  ->src_y; 
+init -> root_x  ->lib_x  ->usr_x  ->src_x; 
+root_y -> __lib_2_y -> __usr_3_y -> __src_4_y; 
+lib_x -> __lib_2_y; 
+usr_x -> __usr_3_y; 
+src_x -> __src_4_y; 
+
+}

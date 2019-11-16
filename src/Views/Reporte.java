@@ -23,12 +23,12 @@ public class Reporte extends javax.swing.JFrame {
     /**
      * Creates new form Reporte
      */
-    public Reporte() throws IOException {
+    public Reporte(String filename) throws IOException {
         initComponents();
 
         setLocationRelativeTo(null);
 
-        BufferedImage img = ImageIO.read(new File("C:/reports/graph_"+Main.Main.user.getUsuario()+".png"));
+        BufferedImage img = ImageIO.read(new File("C:/reports/"+filename));
         ImageIcon icon = new ImageIcon(img);
         lblImage.setIcon(icon);
         

@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
+import structures.Stack;
+import structures.matrix.Matrix;
 
 public class Directorio {
 
     private String nombre;
     private ListaDirectorios directorios;
+    private Matrix m = new Matrix(); 
 
     public Directorio(String nombre) {
         this.nombre = nombre;
@@ -32,8 +35,8 @@ public class Directorio {
     public Directorio getDirectorio(String nombreDirectorio) {
         return directorios.get(nombreDirectorio);
     }
-    
-    public void removeDirectorio(String nombreDirectorio){
+
+    public void removeDirectorio(String nombreDirectorio) {
         directorios.eliminar(nombreDirectorio);
     }
 
@@ -49,14 +52,16 @@ public class Directorio {
     public ListaDirectorios getDirectorios() {
         return directorios;
     }
-
+    
     private void imprimirDirectorioCompleto(Directorio d, int level) {
 
-        System.out.println("--".repeat(level) + d.getNombre() + " con " + d.getDirectorios().getSize() + " directorios dentro ");
+        //System.out.println("--".repeat(level) + d.getNombre() + " con " + d.getDirectorios().getSize() + " directorios dentro ");
 
         Directorio[] ds = d.getDirectorios().getIterable();
 
         for (Directorio folder : ds) {
+            System.out.println(d.getNombre() + "/" + folder.getNombre());
+            m.add(d.getNombre(), folder.getNombre());
             imprimirDirectorioCompleto(folder, level + 1);
         }
 
@@ -67,9 +72,9 @@ public class Directorio {
             String s = "";
             s = graficar(this, 0);
             s += "\nlabelloc=\"t\";\n";
-            s += "label=\""+ "Directorios - USUARIO: " + Main.Main.user.getUsuario()  +"\";\n";
-            
-            Graphic g = new Graphic("graph_"+Main.Main.user.getUsuario(), s, "LR","neato",true);
+            s += "label=\"" + "Directorios - USUARIO: " + Main.Main.user.getUsuario() + "\";\n";
+
+            Graphic g = new Graphic("graph_" + Main.Main.user.getUsuario(), s, "LR", "neato", true);
         } catch (IOException ex) {
             Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -100,26 +105,34 @@ public class Directorio {
 
     public void imprimirDirectorioCompleto() {
         imprimirDirectorioCompleto(this, 0);
+        m.imprimir();
+        //m.graficar();
     }
 
-    
-    private void getTreeRoot(Directorio folder, DefaultMutableTreeNode node){
-        
-        Directorio [] di = folder.getDirectorios().getIterable();
-        for(Directorio d: di){
+    private void getTreeRoot(Directorio folder, DefaultMutableTreeNode node) {
+
+        Directorio[] di = folder.getDirectorios().getIterable();
+        for (Directorio d : di) {
             DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(d.getNombre());
             node.add(newNode);
             getTreeRoot(d, newNode);
         }
-        
+
     }
-    
+
     public DefaultMutableTreeNode getTreeRoot() {
-        
-        
+
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(nombre);
         getTreeRoot(this, root);
         return root;
     }
+
+    public void graficarMatrizAdyacencia() {
+        Matrix m = new Matrix();
+        m.add(this);
+        m.graficar();
+    }
+
+ 
 
 }
