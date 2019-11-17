@@ -15,16 +15,10 @@ public class Main {
     public static Bitacora bitacora = new Bitacora();
     public static Usuario user = new Usuario("admin", "admin");
     public static Login log = new Login();
+
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
 
-        String project_path = "C:\\Users\\aybso\\OneDrive\\Documents\\Universidad\\EDD\\Laboratorio\\DS_DRIVE\\";
-
-        bulkLoadingUsers(project_path + "users.csv");
-        addUser("huawei123", "123123123");
-
         log.setVisible(true);
-
-
 
     }
 

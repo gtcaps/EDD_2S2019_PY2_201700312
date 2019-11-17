@@ -23,34 +23,7 @@ public class Usuario {
         this.password = encrypt_pass(password);
         this.fechaCreacion = getDate();
         this.directorio = new Directorio("/");
-        
-        
-        //------------------- CODIGO DE PRUEBA PARA SIMULAR CARPETAS ----------------------- DEBE DE SER BORRADO ---------
-        directorio.addDirectorio("temp");
-        directorio.addDirectorio("var");
-        directorio.addDirectorio("user");
-        directorio.addDirectorio("home");
-        directorio.addDirectorio("documents");
-        directorio.addDirectorio("lib");
-        directorio.addArchivo("archivo1.txt");
-        directorio.addArchivo("archivo2.txt");
-        directorio.addArchivo("archivo3.txt");
-        directorio.addArchivo("HolaMundo.java","public static void main(String...args){}");
-        
-        directorio.getDirectorio("temp").addDirectorio("cache");
-        
-        directorio.getDirectorio("var").addDirectorio("oracle");
-        
-        directorio.getDirectorio("user").addDirectorio("credentials");
-        directorio.getDirectorio("user").addDirectorio("folder");
-        
-        directorio.getDirectorio("home").addDirectorio("documents");
-        directorio.getDirectorio("home").addDirectorio("videos");
-        
-        directorio.getDirectorio("home").getDirectorio("documents").addDirectorio("usac");
-        
-        directorio.getDirectorio("documents").addDirectorio("universidad");
-        //-----------------------------------------------------------------------------------------------------------------
+
     }
 
     public String getUsuario() {
