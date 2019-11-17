@@ -433,17 +433,25 @@ public class UserDashboard extends javax.swing.JFrame {
             }
             lbl.setText(path_string);
 
-            if (path[path.length - 1].toString().contains(".")) {
+            if (path[path.length - 1].toString().contains(".")) {             
                 enabledFilesButtons();
                 disabledAllFoldersButtons();
+                btnCrearArchivo.setEnabled(false);
+                btnCrearArchivo.setBackground(new Color(153, 153, 153));
             } else {
                 enabledFoldersButtons();
                 disabledAllFileButtons();
+                btnCrearArchivo.setEnabled(true);
+                btnCrearArchivo.setBackground(new Color(41, 168, 73));
             }
 
             if (lbl.getText().equals("/") || selectedNode.isRoot()) {
                 disabledAllFoldersButtons();
                 disabledAllFileButtons();
+                btnCrearFolder.setEnabled(true);
+                btnCrearFolder.setBackground(new Color(41, 168, 73));
+                btnCrearArchivo.setEnabled(true);
+                btnCrearArchivo.setBackground(new Color(41, 168, 73));
             }
 
         } else {
@@ -666,15 +674,19 @@ public class UserDashboard extends javax.swing.JFrame {
     }
 
     private void disabledAllFoldersButtons() {
+        btnCrearFolder.setEnabled(false);
         btnModificarFolder.setEnabled(false);
         btnEliminarFolder.setEnabled(false);
+        btnCrearFolder.setBackground(new Color(153, 153, 153));
         btnModificarFolder.setBackground(new Color(153, 153, 153));
         btnEliminarFolder.setBackground(new Color(153, 153, 153));
     }
 
     private void enabledFoldersButtons() {
+        btnCrearFolder.setEnabled(true);
         btnModificarFolder.setEnabled(true);
         btnEliminarFolder.setEnabled(true);
+        btnCrearFolder.setBackground(new Color(41, 168, 73));
         btnModificarFolder.setBackground(new Color(41, 168, 73));
         btnEliminarFolder.setBackground(new Color(41, 168, 73));
     }

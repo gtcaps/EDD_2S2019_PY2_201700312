@@ -32,6 +32,10 @@ public class Usuario {
         directorio.addDirectorio("home");
         directorio.addDirectorio("documents");
         directorio.addDirectorio("lib");
+        directorio.addArchivo("archivo1.txt");
+        directorio.addArchivo("archivo2.txt");
+        directorio.addArchivo("archivo3.txt");
+        directorio.addArchivo("HolaMundo.java");
         
         directorio.getDirectorio("temp").addDirectorio("cache");
         

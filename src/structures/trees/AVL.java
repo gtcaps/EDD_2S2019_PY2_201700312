@@ -280,4 +280,19 @@ public class AVL {
     public int getSize() {
         return size;
     }
+    
+    
+    public String nombresArchivos(){
+        return listarArchivosEnOrden(raiz);
+    }
+    
+       private String listarArchivosEnOrden(TreeNode node){
+        String s = "";
+        if(node != null){
+            s += listarArchivosEnOrden(node.getIzquierda() );
+            s += node.getArchivo().getNombre() + " ";
+            s += listarArchivosEnOrden(node.getDerecha());
+        }
+        return s;
+    }
 }
