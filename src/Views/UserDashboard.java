@@ -650,7 +650,6 @@ public class UserDashboard extends javax.swing.JFrame {
             folderName = path[path.length - 1].toString();
         }
 
-
         //ABRIR EL ARCHIVO CSV
         JFileChooser jfc = new JFileChooser();
         jfc.addChoosableFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
@@ -659,20 +658,21 @@ public class UserDashboard extends javax.swing.JFrame {
         File f = jfc.getSelectedFile();
 
         if (f.exists() && f.getName().contains(".csv")) {
-            System.out.println(f.getName());
 
             try {
                 FileReader fr = new FileReader(f.getAbsolutePath());
                 BufferedReader br = new BufferedReader(fr);
 
                 String line = "";
-                String[] headers = br.readLine().toLowerCase().strip().split(",");
+                String[] headers = br.readLine().toLowerCase().strip().replaceAll("[^!-~\\u20000-\\uFE1F\\uFF00-\\uFFEF]", "").split(",");
+
 
                 if (headers.length == 2) {
                     String h1 = headers[0];
                     String h2 = headers[1];
 
-                    if ((h1.contains("archivo") && h2.contains("contenido")) || (h2.contains("archivo")) && h1.contains("contenido")) {
+                    if ((h1.equalsIgnoreCase("archivo") && h2.equalsIgnoreCase("contenido")) || (h2.equalsIgnoreCase("archivo")) && h1.equalsIgnoreCase("contenido")) {
+
                         Directorio actual = Main.Main.user.getDirectorio();
 
                         if (path[path.length - 1].toString().contains(".")) {
@@ -684,8 +684,7 @@ public class UserDashboard extends javax.swing.JFrame {
                                 actual = actual.getDirectorio(path[i].toString());
                             }
                         }
-
-
+                  
                         JOptionPane.showMessageDialog(null, "Se cargo el CSV");
                         actual.addArchivosCSV(f.getAbsolutePath());
                         bitacora.add(user.getUsuario(), "Agrego carga masiva con archivo " + f.getName());
@@ -712,11 +711,11 @@ public class UserDashboard extends javax.swing.JFrame {
                 }
 
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("No se encontro el archivo");
             } catch (IOException ex) {
-                Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("No se pudo leer el archivo");
             }
-
+//
         } else {
             JOptionPane.showMessageDialog(null, "Abra un archivo con extension csv");
         }
@@ -874,9 +873,10 @@ public class UserDashboard extends javax.swing.JFrame {
                 //ELIMINAR DE GRAFO
                 Directorio actual = Main.Main.user.getDirectorio();
 
-                for (int i = 1; i < path.length - 2; i++) {
+                for (int i = 1; i < path.length - 1; i++) {
                     actual = actual.getDirectorio(path[i].toString());
                 }
+
                 actual.eliminarArchivo(fileName);
                 bitacora.add(user.getUsuario(), "Elimino Archivo " + fileName + " dentro de " + folderName);
 
@@ -972,7 +972,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
         Directorio actual = Main.Main.user.getDirectorio();
 
-        for (int i = 1; i < path.length - 2; i++) {
+        for (int i = 1; i < path.length - 1; i++) {
             actual = actual.getDirectorio(path[i].toString());
         }
 
@@ -1029,7 +1029,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
                 Directorio actual = Main.Main.user.getDirectorio();
 
-                for (int i = 1; i < path.length - 2; i++) {
+                for (int i = 1; i < path.length - 1; i++) {
                     actual = actual.getDirectorio(path[i].toString());
                 }
 

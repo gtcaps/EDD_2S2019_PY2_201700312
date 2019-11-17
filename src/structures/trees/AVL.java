@@ -35,19 +35,20 @@ public class AVL {
             BufferedReader br = new BufferedReader(new FileReader(file));
 
             String line = "";
-            String[] headers = br.readLine().toLowerCase().strip().split(",");
+            String[] headers = br.readLine().toLowerCase().strip().replaceAll("[^!-~\\u20000-\\uFE1F\\uFF00-\\uFFEF]", "").split(",");
 
             while ((line = br.readLine()) != null) {
                 String[] linea = line.strip().split(",");
-                
-                
+              
 
                 if (headers[0].contains("archivo")) {
                     String nombre = linea[0].contains(".") ? linea[0] : linea[0] + ".txt";
-                    
+                 
                     Archivo a = getArchivo(nombre);
                     if(a.getNombre().isBlank()){
                        add(nombre, linea[1]); 
+                       Archivo v = getArchivo(nombre);
+                       v.setContenido(linea[1]);
                     }else{
                         int opc = JOptionPane.showConfirmDialog(null, "¿Deseas sobreescribir el archivo " + nombre + "?", null, JOptionPane.YES_NO_OPTION);
                         if(opc == JOptionPane.YES_OPTION){
@@ -55,14 +56,15 @@ public class AVL {
                             Main.Main.bitacora.add(Main.Main.user.getUsuario(), "Carga masiva, sobreescribio el archivo " + nombre);
                         }
                     }
-                    
-                    
+                  
                 } else {
-                    String nombre = linea[1].contains(".") ? linea[1] : linea + ".txt";
+                    String nombre = linea[1].contains(".") ? linea[1] : linea[1] + ".txt";
                     
                     Archivo a = getArchivo(nombre);
                     if(a.getNombre().isBlank()){
-                       add(nombre, linea[0]); 
+                       add(nombre, linea[0]);
+                       Archivo v = getArchivo(nombre);
+                       v.setContenido(linea[0]);
                     }else{
                         int opc = JOptionPane.showConfirmDialog(null, "¿Deseas sobreescribir el archivo " + nombre + "?", null, JOptionPane.YES_NO_OPTION);
                         if(opc == JOptionPane.YES_OPTION){
@@ -72,7 +74,6 @@ public class AVL {
                     }
                     
                 }
-
             }
 
         } catch (Exception e) {
@@ -210,6 +211,9 @@ public class AVL {
     }
 
     private int factorEquilibrio(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
         return altura(node.getDerecha()) - altura(node.getIzquierda());
     }
 

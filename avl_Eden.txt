@@ -3,9 +3,15 @@ digraph G{
    node[shape=record];
    graph[ranksep="1"];
 
-       nodo_holamundo_txt[label="<i>|[NOMBRE] holamundo.txt \n [TIMESTAMP] 17-11-2019 01::50::10.140 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nvacio \n |<d>"];
+       nodo_HolaMundo_java[label="<i>|[NOMBRE] HolaMundo.java \n [TIMESTAMP] 17-11-2019 03::20::54.600 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \npublic static void main(String...args)\{\} \n |<d>"];
+    nodo_archivo1_txt[label="<i>|[NOMBRE] archivo1.txt \n [TIMESTAMP] 17-11-2019 03::20::54.599 \n [F.E.] -1 \n [ALTURA] 2 \n [CONTENIDO] \nvacio \n |<d>"];
+    nodo_archivo1_txt:i -> nodo_HolaMundo_java;
+    nodo_archivo2_txt[label="<i>|[NOMBRE] archivo2.txt \n [TIMESTAMP] 17-11-2019 03::20::54.600 \n [F.E.] -1 \n [ALTURA] 3 \n [CONTENIDO] \nvacio \n |<d>"];
+    nodo_archivo2_txt:i -> nodo_archivo1_txt;
+    nodo_archivo2_txt:d -> nodo_archivo3_txt;
+    nodo_archivo3_txt[label="<i>|[NOMBRE] archivo3.txt \n [TIMESTAMP] 17-11-2019 03::20::54.600 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nvacio \n |<d>"];
 
 labelloc="t";
-label="Arbol Balanceado de Archivos - [USUARIO] Eden - [DIRECTORIO]   lib";
+label="Arbol Balanceado de Archivos - [USUARIO] Eden - [DIRECTORIO]   /";
 
 }
