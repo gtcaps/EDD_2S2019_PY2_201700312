@@ -990,7 +990,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
         Directorio actual = Main.Main.user.getDirectorio();
 
-        for (int i = 1; i < path.length - 2; i++) {
+        for (int i = 1; i < path.length - 1; i++) {
             actual = actual.getDirectorio(path[i].toString());
         }
 
