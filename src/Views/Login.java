@@ -175,14 +175,17 @@ public class Login extends javax.swing.JFrame {
         String password = new String(txtPassword.getPassword());
         
         if(usuario.equals("admin") && password.equals("admin")){
+            bitacora.add("admin", "Inicio de Sesion");
             JOptionPane.showMessageDialog(null, "Bienvenido Administrador");
+            new AdminDashboard().setVisible(true);
+            this.setVisible(false);
         }else{
             if(initSession(usuario, password)){
                 JOptionPane.showMessageDialog(null, "Bienvenido " + usuario);
                 bitacora.add(usuario, "Inicio de Sesion");
                 UserDashboard ud = new UserDashboard();
                 ud.setVisible(true);
-                this.dispose();
+                this.setVisible(false);
             }else{
                 JOptionPane.showMessageDialog(null, "Revise sus datos");
                 txtUser.requestFocusInWindow();

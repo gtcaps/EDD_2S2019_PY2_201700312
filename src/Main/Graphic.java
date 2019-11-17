@@ -1,6 +1,8 @@
 package Main;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Graphic {
 
@@ -62,13 +64,24 @@ public class Graphic {
                 "  %s\n" +
                 "}", rankdir,nodeShape, fileData);
         
-        
+                
         this.writer = new BufferedWriter(new FileWriter(this.fileName));
         this.writer.write(this.fileData);
         this.writer.close();
 
+        
         generateGraphic(fileName);
         //executeCommand("C:/reports/$.png".replace("$",fileName));
+    }
+    
+    public Graphic(String fileName){
+        try {
+            generateGraphic(fileName);
+        } catch (IOException ex) {
+            Logger.getLogger(Graphic.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Graphic.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void generateGraphic(String fileName) throws IOException, InterruptedException {

@@ -3,27 +3,9 @@ digraph G{
    node[shape=record];
    graph[ranksep="1"];
 
-       nodo_Header_h[label="<i>|[NOMBRE] Header.h \n [TIMESTAMP] 17-11-2019 01::58::48.010 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \n\"este es un archivo cabecera\" \n |<d>"];
-    nodo_Hola_txt[label="<i>|[NOMBRE] Hola.txt \n [TIMESTAMP] 17-11-2019 01::58::48.011 \n [F.E.] 0 \n [ALTURA] 2 \n [CONTENIDO] \n\"Hola mundo!!!\" \n |<d>"];
-    nodo_Hola_txt:i -> nodo_Header_h;
-    nodo_Hola_txt:d -> nodo_HolaMundo_java;
-    nodo_HolaMundo_java[label="<i>|[NOMBRE] HolaMundo.java \n [TIMESTAMP] 17-11-2019 01::57::30.169 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \npublic static void main(String...args)\{\} \n |<d>"];
-    nodo_Main_py[label="<i>|[NOMBRE] Main.py \n [TIMESTAMP] 17-11-2019 01::58::48.010 \n [F.E.] 1 \n [ALTURA] 4 \n [CONTENIDO] \n\"Python Script\" \n |<d>"];
-    nodo_Main_py:i -> nodo_Hola_txt;
-    nodo_Main_py:d -> nodo_chrome_exe;
-    nodo_archivo1_txt[label="<i>|[NOMBRE] archivo1.txt \n [TIMESTAMP] 17-11-2019 01::57::30.167 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \n\"Python Script modificado\" \n |<d>"];
-    nodo_archivo2_txt[label="<i>|[NOMBRE] archivo2.txt \n [TIMESTAMP] 17-11-2019 01::57::30.168 \n [F.E.] 0 \n [ALTURA] 2 \n [CONTENIDO] \nvacio \n |<d>"];
-    nodo_archivo2_txt:i -> nodo_archivo1_txt;
-    nodo_archivo2_txt:d -> nodo_archivo3_txt;
-    nodo_archivo3_txt[label="<i>|[NOMBRE] archivo3.txt \n [TIMESTAMP] 17-11-2019 01::57::30.168 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nvacio \n |<d>"];
-    nodo_chrome_exe[label="<i>|[NOMBRE] chrome.exe \n [TIMESTAMP] 17-11-2019 01::58::48.011 \n [F.E.] 0 \n [ALTURA] 3 \n [CONTENIDO] \n\"Este es un archivo ejecutable\" \n |<d>"];
-    nodo_chrome_exe:i -> nodo_archivo2_txt;
-    nodo_chrome_exe:d -> nodo_inicio_main;
-    nodo_inicio_main[label="<i>|[NOMBRE] inicio.main \n [TIMESTAMP] 17-11-2019 01::58::48.011 \n [F.E.] 1 \n [ALTURA] 2 \n [CONTENIDO] \n\"Archivo Main\" \n |<d>"];
-    nodo_inicio_main:d -> nodo_load_cpp;
-    nodo_load_cpp[label="<i>|[NOMBRE] load.cpp \n [TIMESTAMP] 17-11-2019 01::58::48.012 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \n\"int main()print(Hola mundo);\" \n |<d>"];
+       nodo_holamundo_txt[label="<i>|[NOMBRE] holamundo.txt \n [TIMESTAMP] 17-11-2019 01::50::10.140 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nvacio \n |<d>"];
 
 labelloc="t";
-label="Arbol Balanceado de Archivos - [USUARIO] Eden - [DIRECTORIO]   /";
+label="Arbol Balanceado de Archivos - [USUARIO] Eden - [DIRECTORIO]   lib";
 
 }
