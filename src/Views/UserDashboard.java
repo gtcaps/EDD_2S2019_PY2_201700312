@@ -9,6 +9,7 @@ package Views;
  *
  * @author aybso
  */
+import Main.Archivo;
 import static Main.Main.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -68,6 +69,7 @@ public class UserDashboard extends javax.swing.JFrame {
         optGraphBitacora = new javax.swing.JMenuItem();
         opcReporteMatriz = new javax.swing.JMenuItem();
         opcReporteHash = new javax.swing.JMenuItem();
+        opcReporteArchivos = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -126,6 +128,14 @@ public class UserDashboard extends javax.swing.JFrame {
             }
         });
         menuReports.add(opcReporteHash);
+
+        opcReporteArchivos.setText("Reporte Archivos (AVL)");
+        opcReporteArchivos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                opcReporteArchivosMousePressed(evt);
+            }
+        });
+        menuReports.add(opcReporteArchivos);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
@@ -268,10 +278,20 @@ public class UserDashboard extends javax.swing.JFrame {
         btnEliminarArchivo.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarArchivo.setLabel("Eliminar");
         btnEliminarArchivo.setName(""); // NOI18N
+        btnEliminarArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnEliminarArchivoMousePressed(evt);
+            }
+        });
 
         btnCrearArchivo.setBackground(new java.awt.Color(41, 168, 73));
         btnCrearArchivo.setForeground(new java.awt.Color(255, 255, 255));
         btnCrearArchivo.setLabel("Crear");
+        btnCrearArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCrearArchivoMousePressed(evt);
+            }
+        });
 
         btnAbrirArchivo.setBackground(new java.awt.Color(153, 153, 153));
         btnAbrirArchivo.setEnabled(false);
@@ -433,7 +453,7 @@ public class UserDashboard extends javax.swing.JFrame {
             }
             lbl.setText(path_string);
 
-            if (path[path.length - 1].toString().contains(".")) {             
+            if (path[path.length - 1].toString().contains(".")) {
                 enabledFilesButtons();
                 disabledAllFoldersButtons();
                 btnCrearArchivo.setEnabled(false);
@@ -536,7 +556,7 @@ public class UserDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Se modifico exitosamente el directorio " + folderName + " ahora es " + actual.getNombre() + "/" + nombreNuevoFolder);
                     modificar.setNombre(nombreNuevoFolder); // MODIFICO EL NOMBRE DE LA CARPETA 
                     bitacora.add(user.getUsuario(), "Modifico Directorio " + folderName + " por " + nombreNuevoFolder);
-                    
+
                     //ACTUALIZO EL JTREE (PARTE VISUAL)EE
                     selectedNode.setUserObject(nombreNuevoFolder);
                     DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
@@ -579,7 +599,7 @@ public class UserDashboard extends javax.swing.JFrame {
                     actual = actual.getDirectorio(path[i].toString());
                 }
                 actual.removeDirectorio(path[path.length - 1].toString());
-                bitacora.add(user.getUsuario(), "Elimino Directorio " + path[path.length - 1].toString() );
+                bitacora.add(user.getUsuario(), "Elimino Directorio " + path[path.length - 1].toString());
             }
 
         }
@@ -624,7 +644,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private void optGraph1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optGraph1MousePressed
         try {
             directorioUsuario.graficar();
-            new Reporte("graph_"+user.getUsuario()+".png").setVisible(true);
+            new Reporte("graph_" + user.getUsuario() + ".png").setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -658,6 +678,131 @@ public class UserDashboard extends javax.swing.JFrame {
             Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_opcReporteHashMousePressed
+
+    private void opcReporteArchivosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opcReporteArchivosMousePressed
+
+        try {
+            TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL FOLDER EN DONDE VOY A CREAR EL NUEVO DIRECTORIO
+            Directorio actual = Main.Main.user.getDirectorio(); //ME POSICIONO EN EL DIRECTORIO RAIZ DEL USUARIO Y LO GUARDO EN UNA VARIABLE QUE SE MODIFICARA HASTA LLEGAR AL DIRECTORIO DESEADO
+
+            //UTILIZO UN FOR PARA PODER ACCEDER A CADA DIRECTORIO QUE TIENE LA VARIABLE PATH
+            //LA VARIABLE ACTUAL SE VA MODIFICANDO OBTIENDO EL DIRECTORIO QUE SIGUE EN LA RUTA,
+            //SI EL ULTIMO NODO DE LA RUTA CONTIENE UN . QUIERE DECIR QUE ES UN ARCHIVO Y NOS QUEDAMOS
+            //UN NODO ANTERIOR QUE SERIA EL FOLDER QUE LO CONTIENE
+            if (path[path.length - 1].toString().contains(".")) {
+                for (int i = 1; i < path.length - 1; i++) {
+                    actual = actual.getDirectorio(path[i].toString());
+                }
+            } else {
+                for (int i = 1; i < path.length; i++) {
+                    actual = actual.getDirectorio(path[i].toString());
+                }
+            }
+
+            actual.graficarArchivos();
+
+            new Reporte("avl_" + user.getUsuario() + ".png").setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_opcReporteArchivosMousePressed
+
+    private void btnCrearArchivoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearArchivoMousePressed
+        //SOLICITO AL USUARIO EL NOMBRE DEL ARCHIVO QUE DESEA CREAR
+        String nombreNuevoArchivo = JOptionPane.showInputDialog(null, "Nombre del Archivo");
+
+        //VERIFICO QUE EL NOMBRE DEL ARCHIVO NO VENGA VACIO O EN BLANCO
+        if (nombreNuevoArchivo.isBlank() || nombreNuevoArchivo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede agregar un archivo sin nombre");
+        } else {
+            nombreNuevoArchivo = nombreNuevoArchivo.contains(".") ? nombreNuevoArchivo : nombreNuevoArchivo + ".txt";
+            TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL FOLDER EN DONDE VOY A CREAR EL NUEVO DIRECTORIO
+            Directorio actual = Main.Main.user.getDirectorio(); //ME POSICIONO EN EL DIRECTORIO RAIZ DEL USUARIO Y LO GUARDO EN UNA VARIABLE QUE SE MODIFICARA HASTA LLEGAR AL DIRECTORIO DESEADO
+
+            //UTILIZO UN FOR PARA PODER ACCEDER A CADA DIRECTORIO QUE TIENE LA VARIABLE PATH
+            //LA VARIABLE ACTUAL SE VA MODIFICANDO OBTIENDO EL DIRECTORIO QUE SIGUE EN LA RUTA
+            for (int i = 1; i < path.length; i++) {
+                actual = actual.getDirectorio(path[i].toString());
+            }
+
+            //VERIFICO SI EL ARCHIVO QUE DESEO AGREGAR EXISTE DENTRO DEL DIRECTORIO
+            if (actual.existeArchivo(nombreNuevoArchivo)) {
+                Archivo a = actual.getArchivo(nombreNuevoArchivo);
+
+                System.out.println("Tengo el archivo " + a.getNombre());
+                System.out.println("El contenido del archivo es " + a.getContenido());
+
+                int estasSeguro = JOptionPane.showConfirmDialog(null, "¿Deseas sobreescribir el archivo " + nombreNuevoArchivo + "?", "Crear Archivo", JOptionPane.YES_NO_OPTION);
+
+                //SI LA RESPUESTA ES AFIRMATIVA SE PROCEDE A ELIMINAR EL NODO DEL GRADO DE DIRECTORIOS Y DE LA VISTA DEL JTREE
+                if (estasSeguro == JOptionPane.OK_OPTION) {
+                    a.setContenido("");
+                    JOptionPane.showMessageDialog(null, "Se modifico el archivo " + nombreNuevoArchivo);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Se agrego exitosamente el archivo " + nombreNuevoArchivo + " dentro de " + actual.getNombre());
+                actual.addArchivo(nombreNuevoArchivo);//AGREGO AL DIRECTORIO EL ARCHIVO
+                bitacora.add(user.getUsuario(), "Agrego el archivo " + nombreNuevoArchivo + "/" + path[path.length - 1]);
+
+                //CREAR ARCHIVO DENTRO DEL JTREE (PARTE VISUAL)
+                DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
+                model.setRoot(directorioUsuario.getTreeRoot());
+                model.reload();
+
+                disabledAllFoldersButtons();
+                disabledAllFileButtons();
+
+                selectedNode = (DefaultMutableTreeNode) selectedNode.getRoot();
+                btnCrearFolder.setEnabled(true);
+                btnCrearFolder.setBackground(new Color(41, 168, 73));
+                btnCrearArchivo.setEnabled(true);
+                btnCrearArchivo.setBackground(new Color(41, 168, 73));
+            }
+        }
+
+
+    }//GEN-LAST:event_btnCrearArchivoMousePressed
+
+    private void btnEliminarArchivoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarArchivoMousePressed
+        //VERIFICO QUE EL NODO QUE SE DESEA ELIMINAR NO SEA LA RAIZ
+        if (!selectedNode.isRoot()) {
+            TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL JTREE DEL NODO SELECCIONADO
+            String fileName = path[path.length - 1].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+            String folderName = path[path.length - 2].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+
+            //SOLICITO SI SE DESEA ELIMINAR LA CARPETA
+            int estasSeguro = JOptionPane.showConfirmDialog(null, "¿Seguro deseas eliminar " + fileName + "?", "Eliminar Archivo", JOptionPane.YES_NO_OPTION);
+
+            //SI LA RESPUESTA ES AFIRMATIVA SE PROCEDE A ELIMINAR EL NODO DEL GRADO DE DIRECTORIOS Y DE LA VISTA DEL JTREE
+            if (estasSeguro == JOptionPane.OK_OPTION) {
+                //ELIMINAR DE GRAFO
+                Directorio actual = Main.Main.user.getDirectorio();
+
+                for (int i = 1; i < path.length - 2; i++) {
+                    actual = actual.getDirectorio(path[i].toString());
+                }
+                actual.eliminarArchivo(fileName);
+                bitacora.add(user.getUsuario(), "Elimino Archivo " + fileName + " dentro de " + folderName);
+
+                //ACTUALIZAR EL JTREE (PARTE VISUAL)
+                DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
+                model.setRoot(directorioUsuario.getTreeRoot());
+                model.reload();
+
+                disabledAllFoldersButtons();
+                disabledAllFileButtons();
+
+                selectedNode = (DefaultMutableTreeNode) selectedNode.getRoot();
+                btnCrearFolder.setEnabled(true);
+                btnCrearFolder.setBackground(new Color(41, 168, 73));
+                btnCrearArchivo.setEnabled(true);
+                btnCrearArchivo.setBackground(new Color(41, 168, 73));
+            }
+
+        }
+    }//GEN-LAST:event_btnEliminarArchivoMousePressed
 
     private void disabledAllFileButtons() {
         btnModificarArchivo.setEnabled(false);
@@ -732,6 +877,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lbl;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPopupMenu menuReports;
+    private javax.swing.JMenuItem opcReporteArchivos;
     private javax.swing.JMenuItem opcReporteHash;
     private javax.swing.JMenuItem opcReporteMatriz;
     private javax.swing.JMenuItem optGraph1;

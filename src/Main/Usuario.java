@@ -35,7 +35,7 @@ public class Usuario {
         directorio.addArchivo("archivo1.txt");
         directorio.addArchivo("archivo2.txt");
         directorio.addArchivo("archivo3.txt");
-        directorio.addArchivo("HolaMundo.java");
+        directorio.addArchivo("HolaMundo.java","public static void main(String...args){}");
         
         directorio.getDirectorio("temp").addDirectorio("cache");
         

@@ -40,6 +40,14 @@
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="opcReporteHashMousePressed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="opcReporteArchivos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reporte Archivos (AVL)"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="opcReporteArchivosMousePressed"/>
+          </Events>
+        </MenuItem>
       </SubComponents>
     </Container>
   </NonVisualComponents>
@@ -469,6 +477,9 @@
                 <Property name="label" type="java.lang.String" value="Eliminar"/>
                 <Property name="name" type="java.lang.String" value="" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEliminarArchivoMousePressed"/>
+              </Events>
             </Component>
             <Component class="java.awt.Button" name="btnCrearArchivo">
               <Properties>
@@ -480,6 +491,9 @@
                 </Property>
                 <Property name="label" type="java.lang.String" value="Crear"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCrearArchivoMousePressed"/>
+              </Events>
             </Component>
             <Component class="java.awt.Button" name="btnAbrirArchivo">
               <Properties>

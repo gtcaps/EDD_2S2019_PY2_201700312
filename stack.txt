@@ -1,8 +1,0 @@
-digraph G{
-   rankdir = LR;
-   node[shape=record];
-   graph[ranksep="1"];
-
-   stack[label="[USUARIO]:  huawei123\n[OPERACION]:  Inicio de Sesion\n[FECHA]:  15-11-2019\n[HORA]:  10::45::10.707\n | [USUARIO]:  Eden\n[OPERACION]:  Inicio de Sesion\n[FECHA]:  15-11-2019\n[HORA]:  10::44::21.611\n | [USUARIO]:  huawei123\n[OPERACION]:  Se registro un nuevo usuario\n[FECHA]:  15-11-2019\n[HORA]:  10::44::15.573\n | [USUARIO]:  Administrador\n[OPERACION]:  Carga Masiva - users.csv\n[FECHA]:  15-11-2019\n[HORA]:  10::44::15.525\n"];
-
-}

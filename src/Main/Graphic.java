@@ -30,16 +30,16 @@ public class Graphic {
         //executeCommand(".\\$.png".replace("$",fileName));
     }
     
-    public Graphic(String fileName, String fileData, String rankdir, String type, boolean x) throws IOException, InterruptedException {
+    public Graphic(String fileName, String fileData, String rankdir, String type, String ranksep) throws IOException, InterruptedException {
         this.fileName = fileName + ".txt";
         this.fileData = String.format("" +
                         "digraph G{\n" +
                         "   rankdir = %s;\n" +
                         "   node[shape=record];\n" +
-                        "   graph[ranksep=\"1\"];\n" +
+                        "   graph[ranksep=\"%s\"];\n" +
                         "\n" +
                         "   %s\n" +
-                        "}", rankdir, fileData);
+                        "}", rankdir, ranksep, fileData);
         
         File f = new File(fileName);
         f.delete();

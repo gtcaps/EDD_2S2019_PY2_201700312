@@ -137,7 +137,7 @@ public class Matrix {
             String dataGrafica = "";
             if (sizeX == 0 || sizeY == 0) {
                 dataGrafica = "     init[label=\"Matriz Vacia\"];";
-                Graphic g = new Graphic("matrix", dataGrafica, "LR", "neato", true);
+                Graphic g = new Graphic("matrix", dataGrafica, "LR", "neato", "1");
             } else {
                 graficar("matrix");
             }
@@ -259,7 +259,7 @@ public class Matrix {
         }
 
         String data_graph = nodos + cabeceras + relacionesX;
-        Graphic g = new Graphic(nombre, data_graph, "LR", "neato", true);
+        Graphic g = new Graphic(nombre, data_graph, "LR", "neato", "1");
 
     }
 

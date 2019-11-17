@@ -77,7 +77,7 @@ public class Directorio {
             s += "\nlabelloc=\"t\";\n";
             s += "label=\"" + "Directorios - USUARIO: " + Main.Main.user.getUsuario() + "\";\n";
 
-            Graphic g = new Graphic("graph_" + Main.Main.user.getUsuario(), s, "LR", "neato", true);
+            Graphic g = new Graphic("graph_" + Main.Main.user.getUsuario(), s, "LR", "twopi", "2");
         } catch (IOException ex) {
             Logger.getLogger(Directorio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -174,6 +174,16 @@ public class Directorio {
 
     public int sizeArchivos() {
         return archivos.getSize();
+    }
+    
+    public boolean existeArchivo(String nombre){
+        Archivo a = getArchivo(nombre);
+        
+        if(!a.getNombre().isBlank()){
+            return true;
+        }
+        
+        return false;
     }
 
     private String[] nombreArchivos() {
