@@ -1,0 +1,19 @@
+digraph G{
+   rankdir = TB;
+   node[shape=record];
+   graph[ranksep="1"];
+
+       nodo_HolaMundo_java[label="<i>|[NOMBRE] HolaMundo.java \n [TIMESTAMP] 17-11-2019 12::27::02.886 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \npublic static void main(String...args)\{\} \n |<d>"];
+    nodo_HolaMundo_java_copy_Eden[label="<i>|[NOMBRE] HolaMundo.java_copy_Eden \n [TIMESTAMP] 17-11-2019 12::27::39.691 \n [F.E.] 0 \n [ALTURA] 2 \n [CONTENIDO] \npublic static void main(String...args)\{\} \n |<d>"];
+    nodo_HolaMundo_java_copy_Eden:i -> nodo_HolaMundo_java;
+    nodo_HolaMundo_java_copy_Eden:d -> nodo_archivo1_txt;
+    nodo_archivo1_txt[label="<i>|[NOMBRE] archivo1.txt \n [TIMESTAMP] 17-11-2019 12::27::02.886 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nvacio \n |<d>"];
+    nodo_archivo2_txt[label="<i>|[NOMBRE] archivo2.txt \n [TIMESTAMP] 17-11-2019 12::27::02.886 \n [F.E.] -1 \n [ALTURA] 3 \n [CONTENIDO] \nvacio \n |<d>"];
+    nodo_archivo2_txt:i -> nodo_HolaMundo_java_copy_Eden;
+    nodo_archivo2_txt:d -> nodo_archivo3_txt;
+    nodo_archivo3_txt[label="<i>|[NOMBRE] archivo3.txt \n [TIMESTAMP] 17-11-2019 12::27::02.886 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nvacio \n |<d>"];
+
+labelloc="t";
+label="Arbol Balanceado de Archivos - [USUARIO] huawei123 - [DIRECTORIO]   /";
+
+}

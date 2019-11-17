@@ -11,11 +11,17 @@ package Views;
  */
 import Main.Archivo;
 import static Main.Main.*;
+import Main.Usuario;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream.Filter;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -308,6 +314,11 @@ public class UserDashboard extends javax.swing.JFrame {
         btnCompartirArchivo.setForeground(new java.awt.Color(255, 255, 255));
         btnCompartirArchivo.setLabel("Compartir");
         btnCompartirArchivo.setName(""); // NOI18N
+        btnCompartirArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompartirArchivoActionPerformed(evt);
+            }
+        });
 
         btnModificarArchivo.setBackground(new java.awt.Color(153, 153, 153));
         btnModificarArchivo.setEnabled(false);
@@ -323,6 +334,11 @@ public class UserDashboard extends javax.swing.JFrame {
         btnDescargarArchivo.setEnabled(false);
         btnDescargarArchivo.setForeground(new java.awt.Color(255, 255, 255));
         btnDescargarArchivo.setLabel("Descargar");
+        btnDescargarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescargarArchivoActionPerformed(evt);
+            }
+        });
 
         txtCarga.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         txtCarga.setForeground(new java.awt.Color(51, 51, 51));
@@ -624,18 +640,86 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCargaMouseExited
 
     private void txtCargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCargaMouseClicked
+
+        TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL JTREE DEL NODO SELECCIONADO
+        String folderName = "";
+
+        if (path[path.length - 1].toString().contains(".")) {
+            folderName = path[path.length - 2].toString();
+        } else {
+            folderName = path[path.length - 1].toString();
+        }
+
+
+        //ABRIR EL ARCHIVO CSV
         JFileChooser jfc = new JFileChooser();
         jfc.addChoosableFileFilter(new FileNameExtensionFilter("CSV File", "csv"));
         jfc.showOpenDialog(this);
 
         File f = jfc.getSelectedFile();
 
-        if (f.exists()) {
-            System.out.println("El archivo existe");
-        } else {
-            System.out.println("El archivo no existe");
-        }
+        if (f.exists() && f.getName().contains(".csv")) {
+            System.out.println(f.getName());
 
+            try {
+                FileReader fr = new FileReader(f.getAbsolutePath());
+                BufferedReader br = new BufferedReader(fr);
+
+                String line = "";
+                String[] headers = br.readLine().toLowerCase().strip().split(",");
+
+                if (headers.length == 2) {
+                    String h1 = headers[0];
+                    String h2 = headers[1];
+
+                    if ((h1.contains("archivo") && h2.contains("contenido")) || (h2.contains("archivo")) && h1.contains("contenido")) {
+                        Directorio actual = Main.Main.user.getDirectorio();
+
+                        if (path[path.length - 1].toString().contains(".")) {
+                            for (int i = 1; i < path.length - 1; i++) {
+                                actual = actual.getDirectorio(path[i].toString());
+                            }
+                        } else {
+                            for (int i = 1; i < path.length; i++) {
+                                actual = actual.getDirectorio(path[i].toString());
+                            }
+                        }
+
+
+                        JOptionPane.showMessageDialog(null, "Se cargo el CSV");
+                        actual.addArchivosCSV(f.getAbsolutePath());
+                        bitacora.add(user.getUsuario(), "Agrego carga masiva con archivo " + f.getName());
+
+                        DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
+                        model.setRoot(directorioUsuario.getTreeRoot());
+                        model.reload();
+
+                        disabledAllFoldersButtons();
+                        disabledAllFileButtons();
+                        selectedNode = (DefaultMutableTreeNode) selectedNode.getRoot();
+                        btnCrearFolder.setEnabled(true);
+                        btnCrearFolder.setBackground(new Color(41, 168, 73));
+                        btnCrearArchivo.setEnabled(true);
+                        btnCrearArchivo.setBackground(new Color(41, 168, 73));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El archivo no cumple con la estructura solicitada, las columnas no son archivo y contenido");
+                    }
+
+                    br.close();
+                    fr.close();
+                } else {
+                    JOptionPane.showMessageDialog(null, "El archivo no cumple con la estructura solicitada, tiene más de 2 columnas");
+                }
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Abra un archivo con extension csv");
+        }
 
     }//GEN-LAST:event_txtCargaMouseClicked
 
@@ -891,14 +975,84 @@ public class UserDashboard extends javax.swing.JFrame {
         for (int i = 1; i < path.length - 2; i++) {
             actual = actual.getDirectorio(path[i].toString());
         }
-        
+
         Archivo a = actual.getArchivo(fileName);
         bitacora.add(user.getUsuario(), "Abrio el archivo " + fileName);
-        
-        
+
         new Editor(a).setVisible(true);
-        
+
     }//GEN-LAST:event_btnAbrirArchivoMousePressed
+
+    private void btnDescargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarArchivoActionPerformed
+        TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL JTREE DEL NODO SELECCIONADO
+        String fileName = path[path.length - 1].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+        String folderName = path[path.length - 2].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+
+        Directorio actual = Main.Main.user.getDirectorio();
+
+        for (int i = 1; i < path.length - 2; i++) {
+            actual = actual.getDirectorio(path[i].toString());
+        }
+
+        Archivo a = actual.getArchivo(fileName);
+
+        JFileChooser downloadFile = new JFileChooser();
+        downloadFile.setSelectedFile(new File(a.getNombre()));
+        downloadFile.setDialogTitle("¿Donde desea guardar el archivo?");
+
+        int userResponse = downloadFile.showSaveDialog(this);
+        if (userResponse == JFileChooser.APPROVE_OPTION) {
+            System.out.println(downloadFile.getSelectedFile().getAbsolutePath());
+            try {
+                FileWriter fw = new FileWriter(downloadFile.getSelectedFile().getAbsolutePath());
+                fw.write(a.getContenido());
+                fw.close();
+                JOptionPane.showMessageDialog(null, "Archivo Guardado");
+            } catch (IOException ex) {
+                Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        bitacora.add(user.getUsuario(), "Descargo el archivo " + fileName);
+    }//GEN-LAST:event_btnDescargarArchivoActionPerformed
+
+    private void btnCompartirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompartirArchivoActionPerformed
+        String usuarioDestino = JOptionPane.showInputDialog(null, "¿Escribe el nombre del usuario al que le deseas compartir el archivo?");
+
+        if (usuarioDestino.isBlank() || usuarioDestino.equals(user.getUsuario())) {
+            JOptionPane.showMessageDialog(null, "No se puede compartir el archivo");
+        } else {
+            if (users.exists(usuarioDestino)) {
+
+                TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL JTREE DEL NODO SELECCIONADO
+                String fileName = path[path.length - 1].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+
+                Directorio actual = Main.Main.user.getDirectorio();
+
+                for (int i = 1; i < path.length - 2; i++) {
+                    actual = actual.getDirectorio(path[i].toString());
+                }
+
+                Archivo a = actual.getArchivo(fileName);
+                System.out.println("split");
+                Usuario u = users.getUsuario(usuarioDestino);
+
+                if (u.getDirectorio().existeArchivo(a.getNombre())) {
+                    Archivo au = u.getDirectorio().getArchivo(fileName);
+                    u.getDirectorio().addArchivo("copy_" + user.getUsuario().toLowerCase() + "_" + au.getNombre(), a.getContenido());
+                } else {
+                    u.getDirectorio().addArchivo(a.getNombre(), a.getContenido());
+                }
+
+                JOptionPane.showMessageDialog(null, "Se ha compartido el archivo con " + u.getUsuario());
+                bitacora.add(user.getUsuario(), "Compartio el archivo " + fileName + " con el usuario " + u.getUsuario());
+
+            } else {
+                JOptionPane.showMessageDialog(null, "El usuario no existe, verifica que este bien escrito");
+            }
+        }
+
+    }//GEN-LAST:event_btnCompartirArchivoActionPerformed
 
     private void disabledAllFileButtons() {
         btnModificarArchivo.setEnabled(false);

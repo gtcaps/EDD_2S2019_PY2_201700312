@@ -522,6 +522,9 @@
                 <Property name="label" type="java.lang.String" value="Compartir"/>
                 <Property name="name" type="java.lang.String" value="" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCompartirArchivoActionPerformed"/>
+              </Events>
             </Component>
             <Component class="java.awt.Button" name="btnModificarArchivo">
               <Properties>
@@ -549,6 +552,9 @@
                 </Property>
                 <Property name="label" type="java.lang.String" value="Descargar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDescargarArchivoActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="txtCarga">
               <Properties>

@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import Views.Login;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
-import structures.trees.AVL;
 
 public class Main {
 
@@ -31,16 +30,6 @@ public class Main {
         log.setVisible(true);
 
 
-
-//        AVL a = new AVL();
-//        a.add("m");
-//        a.add("d");
-//        a.add("h");
-//        a.add("b");
-//        a.add("a");
-//        a.delete("h");
-//        //a.graficar("/");
-//        System.out.println(a.nombresArchivos());
 
     }
 
