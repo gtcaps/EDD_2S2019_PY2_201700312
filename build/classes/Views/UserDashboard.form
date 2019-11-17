@@ -531,6 +531,9 @@
                 </Property>
                 <Property name="label" type="java.lang.String" value="Modificar"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnModificarArchivoMousePressed"/>
+              </Events>
             </Component>
             <Component class="java.awt.Button" name="btnDescargarArchivo">
               <Properties>

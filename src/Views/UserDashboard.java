@@ -308,6 +308,11 @@ public class UserDashboard extends javax.swing.JFrame {
         btnModificarArchivo.setEnabled(false);
         btnModificarArchivo.setForeground(new java.awt.Color(255, 255, 255));
         btnModificarArchivo.setLabel("Modificar");
+        btnModificarArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnModificarArchivoMousePressed(evt);
+            }
+        });
 
         btnDescargarArchivo.setBackground(new java.awt.Color(153, 153, 153));
         btnDescargarArchivo.setEnabled(false);
@@ -803,6 +808,74 @@ public class UserDashboard extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnEliminarArchivoMousePressed
+
+    private void btnModificarArchivoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarArchivoMousePressed
+
+        TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL FOLDER EN DONDE VOY A CREAR EL NUEVO DIRECTORIO
+        Directorio actual = Main.Main.user.getDirectorio(); //ME POSICIONO EN EL DIRECTORIO RAIZ DEL USUARIO Y LO GUARDO EN UNA VARIABLE QUE SE MODIFICARA HASTA LLEGAR AL DIRECTORIO DESEADO
+        String fileName = path[path.length - 1].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+        String folderName = path[path.length - 2].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+
+        //SOLICITO AL USUARIO EL NOMBRE DEL ARCHIVO QUE DESEA CREAR
+        String nombreNuevoArchivo = JOptionPane.showInputDialog(null, "Ingresa el nombre del archivo: ", fileName);
+        nombreNuevoArchivo = nombreNuevoArchivo.contains(".") ? nombreNuevoArchivo : nombreNuevoArchivo + ".txt";
+
+        //VERIFICO QUE EL NOMBRE DEL ARCHIVO NO VENGA VACIO O EN BLANCO
+        if (nombreNuevoArchivo.isBlank() || nombreNuevoArchivo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede modificar un archivo sin no tiene nombre");
+        } else {
+            nombreNuevoArchivo = nombreNuevoArchivo.contains(".") ? nombreNuevoArchivo : nombreNuevoArchivo + ".txt";
+
+            //UTILIZO UN FOR PARA PODER ACCEDER A CADA DIRECTORIO QUE TIENE LA VARIABLE PATH
+            //LA VARIABLE ACTUAL SE VA MODIFICANDO OBTIENDO EL DIRECTORIO QUE SIGUE EN LA RUTA
+            for (int i = 1; i < path.length - 1; i++) {
+                actual = actual.getDirectorio(path[i].toString());
+            }
+
+            if (!fileName.equals(nombreNuevoArchivo)) {
+                //VERIFICO SI EL ARCHIVO QUE DESEO AGREGAR EXISTE DENTRO DEL DIRECTORIO
+                if (actual.existeArchivo(nombreNuevoArchivo) && !fileName.equals(nombreNuevoArchivo)) {
+                    Archivo modificar = actual.getArchivo(nombreNuevoArchivo);
+                    Archivo actualArchivo = actual.getArchivo(fileName);
+
+                    System.out.println("ARCHIVO ACTUAL -> " + actualArchivo.getNombre() + " contenido " + actualArchivo.getContenido());
+                    System.out.println("ARCHIVO MODIFICAR -> " + modificar.getNombre() + " contenido " + modificar.getContenido());
+
+                    int estasSeguro = JOptionPane.showConfirmDialog(null, "¿Deseas sobreescribir el archivo " + nombreNuevoArchivo + "?", "Modificar Archivo", JOptionPane.YES_NO_OPTION);
+
+                    if (estasSeguro == JOptionPane.OK_OPTION) {
+                        modificar.setContenido(actualArchivo.getContenido());
+                        actual.eliminarArchivo(fileName);
+                        JOptionPane.showMessageDialog(null, "Se modifico el archivo " + fileName + " correctamente por " + nombreNuevoArchivo);
+                    }
+
+                } else {
+                    String contenidoArchivoActual = actual.getArchivo(fileName).getContenido();
+                    actual.eliminarArchivo(fileName);
+                    actual.addArchivo(nombreNuevoArchivo, contenidoArchivoActual);
+                    bitacora.add(user.getUsuario(), "Modifico el archivo " + nombreNuevoArchivo + "dentro de " + folderName);
+                    JOptionPane.showMessageDialog(null, "Se modifico exitosamente el archivo " + nombreNuevoArchivo + " dentro de " + actual.getNombre());
+                }
+            }
+
+            //ACTUALIZAR EL JTREE (PARTE VISUAL)
+            DefaultTreeModel model = (DefaultTreeModel) treeFolders.getModel();
+            model.setRoot(directorioUsuario.getTreeRoot());
+            model.reload();
+
+            disabledAllFoldersButtons();
+            disabledAllFileButtons();
+
+            selectedNode = (DefaultMutableTreeNode) selectedNode.getRoot();
+            btnCrearFolder.setEnabled(true);
+            btnCrearFolder.setBackground(new Color(41, 168, 73));
+            btnCrearArchivo.setEnabled(true);
+            btnCrearArchivo.setBackground(new Color(41, 168, 73));
+
+        }
+        
+    }//GEN-LAST:event_btnModificarArchivoMousePressed
+
 
     private void disabledAllFileButtons() {
         btnModificarArchivo.setEnabled(false);

@@ -35,13 +35,11 @@ public class Archivo {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-        timestamp = getFecha();
     }
 
 
     public void setContenido(String contenido) {
         this.contenido = contenido;
-        timestamp = getFecha();
     }
 
     public String getContenido() {
