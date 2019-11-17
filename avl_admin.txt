@@ -1,0 +1,17 @@
+digraph G{
+   rankdir = TB;
+   node[shape=record];
+   graph[ranksep="1"];
+
+       nodo_a[label="<i>|[NOMBRE] a \n [TIMESTAMP] 16-11-2019 07::03::58.543 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] vacio \n |<d>"];
+    nodo_b[label="<i>|[NOMBRE] b \n [TIMESTAMP] 16-11-2019 07::03::58.543 \n [F.E.] -1 \n [ALTURA] 2 \n [CONTENIDO] vacio \n |<d>"];
+    nodo_b:i -> nodo_a;
+    nodo_d[label="<i>|[NOMBRE] d \n [TIMESTAMP] 16-11-2019 07::03::58.542 \n [F.E.] -1 \n [ALTURA] 3 \n [CONTENIDO] vacio \n |<d>"];
+    nodo_d:i -> nodo_b;
+    nodo_d:d -> nodo_m;
+    nodo_m[label="<i>|[NOMBRE] m \n [TIMESTAMP] 16-11-2019 07::03::58.542 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] vacio \n |<d>"];
+
+labelloc="t";
+label="Arbol Balanceado de Archivos - Usuarioadmin - [DIRECTORIO]   /";
+
+}

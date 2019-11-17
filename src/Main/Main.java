@@ -36,7 +36,7 @@ public class Main {
         a.add("b");
         a.add("a");
         a.delete("h");
-        a.imprimirEnOrden();
+        a.graficar("/");
 
 
     }

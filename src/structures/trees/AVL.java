@@ -1,6 +1,7 @@
 package structures.trees;
 
 import Main.Archivo;
+import Main.Graphic;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -194,38 +195,42 @@ public class AVL {
         return altura(node.getDerecha()) - altura(node.getIzquierda());
     }
 
-    public void imprimirEnOrden(){
+    public void graficar(String directorio) throws IOException, InterruptedException{
         if(!isNull(raiz)){
-            System.out.println("La raiz del arbol es " + raiz.getArchivo().getNombre());
-            enOrden(raiz);
+            String dataGraphic = enOrden(raiz);
+            dataGraphic += "\n" + "labelloc=\"t\";\n";
+            dataGraphic += "label=\""+ "Arbol Balanceado de Archivos - Usuario" + Main.Main.user.getUsuario()  +" - [DIRECTORIO]   " + directorio  +"\";\n";
+            Graphic g = new Graphic("avl_" + Main.Main.user.getUsuario() , dataGraphic, "TB", "dot", true);
         }else{
             System.out.println("El arbol esta vacio");
         }
     }
 
-    private void enOrden(TreeNode node){
+    private String enOrden(TreeNode node){
+        String s = "";
         if(node != null){
-            enOrden(node.getIzquierda());
-            System.out.println("    nodo_" + node.getArchivo().getNombre().replace(".","_") + "[label=\"<i>|" +
+            s += enOrden(node.getIzquierda() );
+            s += ("    nodo_" + node.getArchivo().getNombre().replace(".","_") + "[label=\"<i>|" +
                     "[NOMBRE] "+ node.getArchivo().getNombre()+" \\n " +
                     "[TIMESTAMP] " + node.getArchivo().getTimestamp() + " \\n " +
                     "[F.E.] " + factorEquilibrio(node)+ " \\n " +
                     "[ALTURA] " + altura(node) + " \\n " +
                     "[CONTENIDO] " + (node.getArchivo().getContenido().isBlank() ? "vacio": node.getArchivo().getContenido().replace("\"","\\\"")) + " \\n " +
-                    "|<d>\"];");
+                    "|<d>\"];\n");
 
             if(node.getIzquierda() != null){
-                System.out.println("    nodo_" + node.getArchivo().getNombre().replace(".","_") + "" +
-                        ":i -> nodo_" + node.getIzquierda().getArchivo().getNombre().replace(".","_") + ";");
+                s += ("    nodo_" + node.getArchivo().getNombre().replace(".","_") + "" +
+                        ":i -> nodo_" + node.getIzquierda().getArchivo().getNombre().replace(".","_") + ";\n");
             }
 
             if(node.getDerecha() != null){
-                System.out.println("    nodo_" + node.getArchivo().getNombre().replace(".","_") + "" +
-                        ":d -> nodo_" + node.getDerecha().getArchivo().getNombre().replace(".","_") + ";");
+                s += ("    nodo_" + node.getArchivo().getNombre().replace(".","_") + "" +
+                        ":d -> nodo_" + node.getDerecha().getArchivo().getNombre().replace(".","_") + ";\n");
             }
 
-            enOrden(node.getDerecha());
+            s += enOrden(node.getDerecha());
         }
+        return s;
     }
 
     public void delete(String nombre){
