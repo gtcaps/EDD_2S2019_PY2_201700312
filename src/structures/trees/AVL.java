@@ -199,7 +199,7 @@ public class AVL {
         if(!isNull(raiz)){
             String dataGraphic = enOrden(raiz);
             dataGraphic += "\n" + "labelloc=\"t\";\n";
-            dataGraphic += "label=\""+ "Arbol Balanceado de Archivos - Usuario" + Main.Main.user.getUsuario()  +" - [DIRECTORIO]   " + directorio  +"\";\n";
+            dataGraphic += "label=\""+ "Arbol Balanceado de Archivos - [USUARIO] " + Main.Main.user.getUsuario()  +" - [DIRECTORIO]   " + directorio  +"\";\n";
             Graphic g = new Graphic("avl_" + Main.Main.user.getUsuario() , dataGraphic, "TB", "dot", "1");
         }else{
             Graphic g = new Graphic("avl_" + Main.Main.user.getUsuario() , "    node_info[label=\"El directorio " + directorio + " , no tiene archivos\"]", "TB", "dot", "1");
@@ -215,7 +215,7 @@ public class AVL {
                     "[TIMESTAMP] " + node.getArchivo().getTimestamp() + " \\n " +
                     "[F.E.] " + factorEquilibrio(node)+ " \\n " +
                     "[ALTURA] " + altura(node) + " \\n " +
-                    "[CONTENIDO] " + (node.getArchivo().getContenido().isBlank() ? "vacio": node.getArchivo().getContenido().replace("\"","\\\"")).replace("{", "\\{").replace("}", "\\}") + " \\n " +
+                    "[CONTENIDO] \\n" + (node.getArchivo().getContenido().isBlank() ? "vacio": node.getArchivo().getContenido().replace("\"","\\\"")).replace("{", "\\{").replace("}", "\\}").replace("\n", "\\n") + " \\n " +
                     "|<d>\"];\n");
 
             if(node.getIzquierda() != null){

@@ -506,6 +506,9 @@
                 </Property>
                 <Property name="label" type="java.lang.String" value="Abrir"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAbrirArchivoMousePressed"/>
+              </Events>
             </Component>
             <Component class="java.awt.Button" name="btnCompartirArchivo">
               <Properties>

@@ -1,0 +1,8 @@
+digraph G{
+   rankdir = LR;
+   node[shape=record];
+   graph[ranksep="1"];
+
+   stack[label="[USUARIO]:  Eden\n[OPERACION]:  Modifico el archivo archivo.txtdentro de /\n[FECHA]:  16-11-2019\n[HORA]:  11::39::24.425\n | [USUARIO]:  Eden\n[OPERACION]:  Abrio el archivo archivo1.txt\n[FECHA]:  16-11-2019\n[HORA]:  11::39::03.881\n | [USUARIO]:  Eden\n[OPERACION]:  Abrio el archivo archivo1.txt\n[FECHA]:  16-11-2019\n[HORA]:  11::38::22.286\n | [USUARIO]:  Eden\n[OPERACION]:  Abrio el archivo archivo2.txt\n[FECHA]:  16-11-2019\n[HORA]:  11::37::55.909\n | [USUARIO]:  Eden\n[OPERACION]:  Inicio de Sesion\n[FECHA]:  16-11-2019\n[HORA]:  11::37::43.583\n | [USUARIO]:  huawei123\n[OPERACION]:  Se registro un nuevo usuario\n[FECHA]:  16-11-2019\n[HORA]:  11::37::37.785\n | [USUARIO]:  Administrador\n[OPERACION]:  Carga Masiva - users.csv\n[FECHA]:  16-11-2019\n[HORA]:  11::37::37.708\n"];
+
+}

@@ -1,0 +1,17 @@
+digraph G{
+   rankdir = TB;
+   node[shape=record];
+   graph[ranksep="1"];
+
+       nodo_HolaMundo_java[label="<i>|[NOMBRE] HolaMundo.java \n [TIMESTAMP] 16-11-2019 11::37::37.724 \n [F.E.] 1 \n [ALTURA] 2 \n [CONTENIDO] \npublic static void main(String...args)\{\} \n |<d>"];
+    nodo_HolaMundo_java:d -> nodo_archivo_txt;
+    nodo_archivo_txt[label="<i>|[NOMBRE] archivo.txt \n [TIMESTAMP] 16-11-2019 11::39::24.424 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nclass HolaMundo\{\n	public static void main()\{\n	\}\n\} \n |<d>"];
+    nodo_archivo2_txt[label="<i>|[NOMBRE] archivo2.txt \n [TIMESTAMP] 16-11-2019 11::37::37.723 \n [F.E.] -1 \n [ALTURA] 3 \n [CONTENIDO] \nvacio \n |<d>"];
+    nodo_archivo2_txt:i -> nodo_HolaMundo_java;
+    nodo_archivo2_txt:d -> nodo_archivo3_txt;
+    nodo_archivo3_txt[label="<i>|[NOMBRE] archivo3.txt \n [TIMESTAMP] 16-11-2019 11::37::37.723 \n [F.E.] 0 \n [ALTURA] 1 \n [CONTENIDO] \nvacio \n |<d>"];
+
+labelloc="t";
+label="Arbol Balanceado de Archivos - [USUARIO] Eden - [DIRECTORIO]   /";
+
+}

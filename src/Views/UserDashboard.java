@@ -297,6 +297,11 @@ public class UserDashboard extends javax.swing.JFrame {
         btnAbrirArchivo.setEnabled(false);
         btnAbrirArchivo.setForeground(new java.awt.Color(255, 255, 255));
         btnAbrirArchivo.setLabel("Abrir");
+        btnAbrirArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnAbrirArchivoMousePressed(evt);
+            }
+        });
 
         btnCompartirArchivo.setBackground(new java.awt.Color(153, 153, 153));
         btnCompartirArchivo.setEnabled(false);
@@ -853,7 +858,7 @@ public class UserDashboard extends javax.swing.JFrame {
                     String contenidoArchivoActual = actual.getArchivo(fileName).getContenido();
                     actual.eliminarArchivo(fileName);
                     actual.addArchivo(nombreNuevoArchivo, contenidoArchivoActual);
-                    bitacora.add(user.getUsuario(), "Modifico el archivo " + nombreNuevoArchivo + "dentro de " + folderName);
+                    bitacora.add(user.getUsuario(), "Modifico el archivo " + nombreNuevoArchivo + " dentro de " + folderName);
                     JOptionPane.showMessageDialog(null, "Se modifico exitosamente el archivo " + nombreNuevoArchivo + " dentro de " + actual.getNombre());
                 }
             }
@@ -873,9 +878,27 @@ public class UserDashboard extends javax.swing.JFrame {
             btnCrearArchivo.setBackground(new Color(41, 168, 73));
 
         }
-        
+
     }//GEN-LAST:event_btnModificarArchivoMousePressed
 
+    private void btnAbrirArchivoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirArchivoMousePressed
+        TreeNode[] path = selectedNode.getPath(); //OBTENGO LA RUTA DEL JTREE DEL NODO SELECCIONADO
+        String fileName = path[path.length - 1].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+        String folderName = path[path.length - 2].toString(); //OBTENGO EL NOMBRE DEL ARCHIVO SELECCIONADO
+
+        Directorio actual = Main.Main.user.getDirectorio();
+
+        for (int i = 1; i < path.length - 2; i++) {
+            actual = actual.getDirectorio(path[i].toString());
+        }
+        
+        Archivo a = actual.getArchivo(fileName);
+        bitacora.add(user.getUsuario(), "Abrio el archivo " + fileName);
+        
+        
+        new Editor(a).setVisible(true);
+        
+    }//GEN-LAST:event_btnAbrirArchivoMousePressed
 
     private void disabledAllFileButtons() {
         btnModificarArchivo.setEnabled(false);
